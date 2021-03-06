@@ -1,0 +1,17 @@
+.black-button{
+    background-color: var(--near-black);
+    color: var(--near-white);
+    border: 0.1rem solid var(--near-white);
+    transition: all 400ms;
+}
+
+.black-button:hover{
+    background-color: var(--gray-dark);
+}
+
+.start-form input{
+    color: var(--near-black);
+    border-color: var(--near-white);
+    border: none;
+    border-radius: 1rem;
+}
