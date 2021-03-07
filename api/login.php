@@ -50,11 +50,18 @@ function add_player_to_game(){
     $free_game_id = get_free_game_id();
     // add player to that game
     $_SESSION['game_id'] = $free_game_id;
+    $player_id = $_SESSION['player_id'];
+    make_no_result_querry("UPDATE players SET game_id = $free_game_id WHERE id = $player_id");
     // get game free_spaces and decrement it free_spaces
     $game = make_querry("SELECT * FROM games WHERE id = $free_game_id");
     $free_spaces = $game[0]['free_spaces'];
     $free_spaces --;
     make_no_result_querry("UPDATE games SET free_spaces = $free_spaces WHERE id = $free_game_id");
+    // if new player is last, start game
+    if($free_spaces == 0){
+        $game_id = $_SESSION['game_id'];
+        set_match_started($game_id);
+    }
 }
 
 function get_free_game_id(){

@@ -1,0 +1,42 @@
+.gameContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.usersBlock{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.playerPin{
+    color: var(--near-white); 
+    border:0.1rem solid var(--near-white);
+    border-radius: 2rem;
+    padding: 1rem;
+    font-size: 0.8rem;
+    margin: 0.5rem;
+    text-align: center;
+    width: 10%;
+}
+
+/* pin colors */
+.gray{
+    background-color: var(--gray-dark);
+}
+
+.blue{
+    background-color: dodgerblue;
+}
+
+.red{
+    background-color: tomato;
+}
+
+.yellow{
+    background-color: yellow;
+}
+
+.green{
+    border-color: green;
+}

@@ -5,13 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="src/frontend/css/main.css">
-    <link rel="stylesheet" href="src/frontend/css/login.css">
+    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/game.css">
+    <link rel="stylesheet" href="src/css/toggleSwitch.css">
 </head>
 <body>
-    <script defer src="./src/frontend/scripts/login.js"></script>
+    <script defer src="./src/scripts/game.js" type="module"></script>
    <div id="app">
-       <p>Game</p>
+    <div class="full full-screen gameContainer">
+        <div class="usersBlock">
+            <div class="playerPin gray">?</div>
+            <div class="playerPin gray">?</div>
+            <div class="playerPin gray">?</div>
+            <div class="playerPin gray">?</div>
+            <div class="readyChecker">
+                <!-- Rounded switch -->
+                <label class="switch">
+                    <input id="isReadySwitch" type="checkbox" disabled>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <p id="readyText">Czekam na innych graczy</p>
+        </div>
+    </div>
    </div>
 </body>
 </html>
