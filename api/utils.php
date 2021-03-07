@@ -36,7 +36,7 @@ function set_match_started($game_id){
 }
 
 function is_player_logged(){
-    session_start();
+    // notice to call only after session_start()
     if(! isset($_SESSION['player_id'])){
         http_response_code(404);
         return false;

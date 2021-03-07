@@ -5,8 +5,7 @@ function main(){
     // return game data to player
     session_start();
     // check if is made session with player
-    if(! isset($_SESSION['player_id'])){
-        http_response_code(404);
+    if(!is_player_logged()){
         return false;
     }
     // get game informations and players

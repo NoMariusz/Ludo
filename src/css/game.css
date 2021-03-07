@@ -26,17 +26,17 @@
 }
 
 .blue{
-    background-color: dodgerblue;
+    background-color: rgb(0, 73, 146);
 }
 
 .red{
-    background-color: tomato;
+    background-color: rgb(172, 26, 0);
 }
 
 .yellow{
-    background-color: yellow;
+    background-color: rgb(174, 177, 0);
 }
 
 .green{
-    border-color: green;
+    background-color: rgb(0, 163, 68);
 }
