@@ -1,6 +1,5 @@
 <?php
-include("utils.php");
-include("./game/gameManager.php");
+include("./includes.php");
 
 function main(){
     $response = array('result' => true);
@@ -61,7 +60,7 @@ function add_player_to_game(){
     // if new player is last, start game
     if($free_spaces == 0){
         $game_id = $_SESSION['game_id'];
-        set_match_started($game_id);
+        start_game($game_id);
     }
 }
 

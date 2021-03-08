@@ -8,7 +8,7 @@ let refresher = new GameRefresher()
 const startLoading = async () => {
     while (live){
         await refresher.refresh();
-        await sleep(500);
+        await sleep(1500);
     }
 }
 

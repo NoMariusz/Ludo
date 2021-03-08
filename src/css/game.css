@@ -20,6 +20,24 @@
     width: 10%;
 }
 
+/* time noticer*/
+
+.baseNoticer{
+    position:relative;
+    margin-bottom: -20%;
+    left: 50%;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    border: 0.1rem solid;
+    z-index: 2;
+}
+
+.timeNoticer{
+    background-color: var(--near-black);
+    border-color: var(--main);
+    color: var(--main);
+}
+
 /* pin colors */
 .gray{
     background-color: var(--gray-dark);

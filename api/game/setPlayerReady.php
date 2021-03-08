@@ -1,6 +1,5 @@
 <?php
-include("../utils.php");
-include("./gameManager.php");
+include("../includes.php");
 
 function main(){
     // set playe to ready and make other ready stuff
@@ -31,10 +30,10 @@ function set_player_ready_status(){
 }
 
 function add_color_to_player(){
-    include("../constants.php");
     $game_id = $_SESSION['game_id'];
     $match_players = get_game_players($game_id);
     // get available colors
+    global $colors;
     $available_colors = $colors;
     var_dump($available_colors);
     foreach($match_players as $player){
@@ -66,7 +65,7 @@ function start_game_if_needed(){
         }
     }
     if (count($match_players) > 1 and $can_start){
-        set_match_started($game_id);
+        start_game($game_id);
     }
 }
 

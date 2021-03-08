@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 08 Mar 2021, 13:18
+-- Czas generowania: 08 Mar 2021, 15:51
 -- Wersja serwera: 10.4.17-MariaDB
 -- Wersja PHP: 8.0.1
 
@@ -39,7 +39,8 @@ CREATE TABLE `games` (
 --
 
 INSERT INTO `games` (`id`, `status`, `free_spaces`, `turn_start_time`) VALUES
-(1, 1, 2, '2021-03-08 12:13:16');
+(1, 1, 2, '2021-03-08 14:43:54'),
+(2, 1, 2, '2021-03-08 14:44:39');
 
 -- --------------------------------------------------------
 
@@ -60,8 +61,10 @@ CREATE TABLE `players` (
 --
 
 INSERT INTO `players` (`id`, `nick`, `color`, `status`, `game_id`) VALUES
-(1, 'tomas', 'blue', 1, 1),
-(2, 'kapitan', 'green', 1, 1);
+(1, 'kamsni', 'blue', 3, 1),
+(2, 'komaz', 'green', 2, 1),
+(3, 'komaz', 'yellow', 2, 2),
+(4, 'kamsni', 'red', 3, 2);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -88,13 +91,13 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT dla tabeli `games`
 --
 ALTER TABLE `games`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ograniczenia dla zrzutów tabel

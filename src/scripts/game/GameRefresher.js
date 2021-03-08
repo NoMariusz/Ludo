@@ -1,4 +1,4 @@
-import { READY_TEXT, WAITING_TEXT } from "../constants.js";
+import { READY_TEXT, WAITING_TEXT, TURN_TIME } from "../constants.js";
 
 
 export default class GameRefresher{
@@ -33,6 +33,8 @@ export default class GameRefresher{
         this.loadPlayersBlock(data);
         // load ready slider
         this.loadReadySlider(data);
+        // load displaying time
+        this.loadTimeNoticer(data);
     };
 
     // loading players block
@@ -49,7 +51,12 @@ export default class GameRefresher{
     };
     
     loadDataToPin = (pin, playerData) => {
-        pin.innerText = playerData.nick;
+        // add p tag
+        pin.innerHTML = "";
+        const p = document.createElement("p")
+        p.innerText = playerData.nick;
+        pin.appendChild(p);
+        // add kolor
         pin.classList.remove("gray");
         pin.classList.add(playerData.color);
     };
@@ -74,4 +81,30 @@ export default class GameRefresher{
     };
 
     // loading time noticer
+
+    loadTimeNoticer = (data) => {
+        // prepare data
+        const playerWithTurnIdx = data.players.findIndex(p => p.status > 2);
+        // if nobody have turn not render noticer
+        if (playerWithTurnIdx == -1){
+            return false;
+        }
+        const playersPin = document.querySelectorAll(".playerPin");
+        console.log(playersPin, playerWithTurnIdx);
+        const pin = playersPin[playerWithTurnIdx];
+        // make noticer
+        const noticer = this.makeNoticer();
+        // add to html and set content
+        pin.appendChild(noticer);
+        const milisecondsLeft = Date.now() - Date.parse(data.game.turn_start_time)
+        const secondsLeft = Math.round(milisecondsLeft / 1000)
+        noticer.innerText = TURN_TIME - secondsLeft;
+    }
+
+    makeNoticer = () => {
+        const noticer = document.createElement("div");
+        noticer.classList.add("baseNoticer");
+        noticer.classList.add("timeNoticer");
+        return noticer;
+    }
 }
