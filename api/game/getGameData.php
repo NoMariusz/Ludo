@@ -1,5 +1,6 @@
 <?php
 include("../utils.php");
+include("./gameManager.php");
 
 function main(){
     // return game data to player

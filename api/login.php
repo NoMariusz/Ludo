@@ -1,5 +1,6 @@
 <?php
 include("utils.php");
+include("./game/gameManager.php");
 
 function main(){
     $response = array('result' => true);

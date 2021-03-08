@@ -27,14 +27,6 @@ function make_no_result_querry($querry){
     return($res);
 }
 
-function get_game_players($game_id){
-    return make_querry("SELECT * FROM players WHERE game_id = $game_id");
-}
-
-function set_match_started($game_id){
-    make_no_result_querry("UPDATE games SET status = 1 WHERE id = $game_id");
-}
-
 function is_player_logged(){
     // notice to call only after session_start()
     if(! isset($_SESSION['player_id'])){

@@ -1,5 +1,6 @@
 <?php
 include("../utils.php");
+include("./gameManager.php");
 
 function main(){
     // set playe to ready and make other ready stuff
