@@ -20,6 +20,8 @@ function main(){
     set_player_ready_status();
     // add him color
     add_color_to_player();
+    // make pawns when have color
+    make_pawns_for_player($player_id);
     // set game started if all players ready or is 4 players
     start_game_if_needed();
 }
@@ -37,20 +39,16 @@ function add_color_to_player(){
     $available_colors = $colors;
     var_dump($available_colors);
     foreach($match_players as $player){
-        if ($player['color'] != 'grey'){
-            // get color index
-            $idx = array_search($player['color'], $available_colors);
-            // delete color from table
-            unset($available_colors[$idx]);
+        if ($player['color_index'] != -1){
+            $color_index = $player['color_index'];
+            // delete color from available
+            unset($available_colors[$color_index]);
         }
     }
     // set color to player
-    $key = array_rand($available_colors);
-    $color = $available_colors[$key];
-    var_dump($key);
-    var_dump($color);
+    $color_key = array_rand($available_colors);
     $player_id = $_SESSION['player_id'];
-    make_no_result_querry("UPDATE players SET color = '$color' WHERE id = $player_id");
+    make_no_result_querry("UPDATE players SET color_index = '$color_key' WHERE id = $player_id");
 }
 
 function start_game_if_needed(){

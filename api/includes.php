@@ -4,4 +4,5 @@ $root = $_SERVER['DOCUMENT_ROOT'].'/Ludo';
 include_once($root.'/api/utils.php');
 include_once($root.'/api/constants.php');
 include_once($root.'/api/game/gameManager.php');
+include_once($root.'/api/board/boardManager.php');
 ?>

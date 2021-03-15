@@ -58,3 +58,13 @@
 .green{
     background-color: rgb(0, 163, 68);
 }
+
+/**/
+
+.gameBody{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+}

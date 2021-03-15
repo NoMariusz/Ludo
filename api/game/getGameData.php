@@ -12,8 +12,14 @@ function main(){
     $game_id = $_SESSION['game_id'];
     $game_data = make_querry("SELECT * FROM games WHERE id = $game_id");
     $players_data = get_game_players($game_id);
+    $pawns = make_querry("SELECT * FROM pawns WHERE game_id = $game_id");
     // return informations
-    echo json_encode(array('game' => $game_data[0], 'players' => $players_data, 'player_id' => $_SESSION['player_id']));
+    echo json_encode(array(
+        'game' => $game_data[0],
+        'players' => $players_data,
+        'player_id' => $_SESSION['player_id'],
+        'pawns' => $pawns
+    ));
 }
 
 main();
