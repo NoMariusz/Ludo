@@ -69,6 +69,11 @@
     min-height: 100%;
 }
 
+#throwCube{
+    position: fixed;
+    bottom: 2rem;
+}
+
 .btn{
     background-color: var(--main);
     color: var(--near-white);
@@ -82,5 +87,20 @@
 
 .btn:hover{
     background-color: var(--gray-dark);
+}
+
+.pawnButton{
+    display: block;
+    position: absolute;
+    background-color: var(--main);
+    padding: 0;
+    opacity: 0;
+    border: none;
+    width: 20px;
+    height: 20px;
+}
+
+#gameBlock{
+    position: relative;
 }
 

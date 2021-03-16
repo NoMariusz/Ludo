@@ -133,6 +133,8 @@ export default class GameRefresher {
 
     loadBoard = async (data) => {
         const canvas = document.querySelector("#gameCanvas");
+        // to clear all buttons in canvas
+        canvas.innerHTML = ''
         const ctx = canvas.getContext("2d");
         // load board image
         await this.loadBoardImage(ctx);

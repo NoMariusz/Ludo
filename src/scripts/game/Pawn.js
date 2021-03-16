@@ -33,5 +33,30 @@ export default class Pawn{
         ctx.stroke();
         ctx.fillStyle = COLORS[this.color_idx];
         ctx.fill();
+
+        this.makeButton();
+    }
+
+    makeButton(){
+        const block = document.querySelector("#gameBlock");
+        let btn = document.createElement("button");
+        btn.classList.add("pawnButton");
+        const x = BOARD_MARGIN + this.position[0] - PAWN_SIZE
+        const y = this.position[1] - PAWN_SIZE
+        btn.style.left = x + 'px';
+        btn.style.top = y + 'px';
+        block.appendChild(btn);
+        btn.onclick = () => {this.handlePanClick()}
+    }
+
+    async handlePanClick(){
+        let path = `api/board/movePawn.php?pawn_id=${this.id}`
+
+        let res = await fetch(path)
+    
+        if (!res.ok){
+            console.error("Can not move pawn");
+            alert("Can not move pawn");
+        }
     }
 }

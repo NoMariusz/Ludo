@@ -17,6 +17,16 @@ function make_querry($querry){
     return($arr);
 }
 
+function make_safe_querry($sql, $types = null, $params = null) {
+    $mysqli = make_connection();
+
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param($types, ...$params);
+
+    if(!$stmt->execute()) return false;
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
 function make_no_result_querry($querry){
     $mysqli =  make_connection();
 

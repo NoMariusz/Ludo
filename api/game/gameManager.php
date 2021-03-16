@@ -30,7 +30,9 @@ function change_active_player($game_id){
     $players = get_game_players($game_id);
     $active_player = make_querry("SELECT * from players WHERE game_id = $game_id AND status > 2;");
     $active_idx = array_search($active_player[0], $players);
-    echo "Active player idx: $active_idx";
+    var_dump($players);
+    var_dump($active_player);
+    echo "Active player idx: $active_idx<br>";
     $active_idx ++;
     if ($active_idx >= count($players)){
         $active_idx = 0;

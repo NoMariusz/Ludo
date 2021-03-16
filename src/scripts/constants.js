@@ -1,7 +1,7 @@
 export const READY_TEXT = "I want to play!";
 export const WAITING_TEXT = "Waiting for other players";
 
-export const TURN_TIME = 40;
+export const TURN_TIME = 50;
 export const COLORS = ["yellow", "red", "green", "blue"];
 
 export const WIDTH = 1000;

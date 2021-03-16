@@ -1,3 +1,4 @@
+<pre>
 <?php
 /* worker making jobs in interval that should be made as background */
 include("./includes.php");
