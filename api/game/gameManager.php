@@ -44,6 +44,6 @@ function change_turn($game_id){
     change_active_player($game_id);
     // change values at turn start
     make_no_result_querry(
-        "UPDATE games SET (turn_start_time, throwed_cube) VALUES (CURRENT_TIMESTAMP(), 0) WHERE id = $game_id"
+        "UPDATE games SET turn_start_time = CURRENT_TIMESTAMP(), throwed_cube =  0 WHERE id = $game_id"
     );
 }

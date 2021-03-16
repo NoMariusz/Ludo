@@ -6,6 +6,7 @@ import {
     BOARD_MARGIN,
     BOARD_SIZE,
     PAWNS_COUNT,
+    DICE_SIZE,
 } from "../constants.js";
 import Pawn from "./Pawn.js";
 
@@ -50,6 +51,8 @@ export default class GameRefresher {
         this.loadTimeNoticer(data);
         // load board
         this.loadBoard(data);
+        // load cube
+        this.loadCube(data);
     };
 
     // loading players block
@@ -189,5 +192,32 @@ export default class GameRefresher {
                 );
             }
         });
+    };
+
+    // diplaying cuba and points
+
+    loadCube = async (data) => {
+        const points = data.game.last_throw_points;
+        const canvas = document.querySelector("#gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const isCubeThrowed = data.game.throwed_cube == 1;
+        this.loadDiceImage(ctx, points, isCubeThrowed);
+    }
+
+    loadDiceImage = async (ctx, points, show) => {
+        return new Promise((resolv, reject) => {
+            const xy = (BOARD_MARGIN - DICE_SIZE)/2
+            ctx.clearRect(xy, xy, DICE_SIZE, DICE_SIZE);
+            if (!show){
+                resolv(true);
+                return false;
+            }
+            const img = new Image();
+            img.onload = () => {
+                ctx.drawImage(img, xy, xy, DICE_SIZE, DICE_SIZE);
+                resolv(true);
+            };
+            img.src = `./src/gfx/cubes/${points}.jpg`;
+        })
     };
 }

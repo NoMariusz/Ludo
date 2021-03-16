@@ -26,7 +26,6 @@ export default class Pawn{
         if (this.position == undefined){
             return false;
         }
-        console.log(this.position);
         const x = BOARD_MARGIN + this.position[0];
         const y = this.position[1];
         ctx.arc(x, y, PAWN_SIZE, 0, 2*Math.PI);

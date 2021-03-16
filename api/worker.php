@@ -7,12 +7,13 @@ ini_set('max_execution_time', '3600');
 function main(){
     while(true){
         loop();
-        sleep(5);
+        sleep(2);
     }
 }
 
 function loop(){
     update_turns();
+    update_turns_by_player_moves();
 }
 
 function update_turns(){
@@ -24,6 +25,26 @@ function update_turns(){
         if ($time_pass >= $TURN_TIME){
             change_turn($game['id']);
         } 
+    }
+}
+
+function update_turns_by_player_moves(){
+    $running_games = make_querry("SELECT * from games WHERE status = 1;");
+    foreach($running_games as $game){
+        // if in match not throwed cube then pass
+        if($game['throwed_cube'] == 0){
+            continue;
+        }
+        $points = $game['last_throw_points'];
+        $game_id = $game['id'];
+        $player = make_querry("SELECT * FROM players WHERE game_id = $game_id AND status = 4")[0];
+        // check if player have move
+        if (check_if_player_have_moves($player ,$points)){
+            echo "player have moves <br>";
+        } else {
+            // if player have not any move
+            change_turn($game_id);
+        }
     }
 }
 

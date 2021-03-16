@@ -68,3 +68,19 @@
     min-width: 100%;
     min-height: 100%;
 }
+
+.btn{
+    background-color: var(--main);
+    color: var(--near-white);
+    border: none;
+    padding: 1rem;
+    border-radius: 2rem;
+    font-size: 0.75rem;
+    border: 0.1rem solid;
+    transition: background-color 300ms;
+}
+
+.btn:hover{
+    background-color: var(--gray-dark);
+}
+

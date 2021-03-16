@@ -36,4 +36,19 @@ function is_player_logged(){
     return true;
 }
 
+function get_game($id){
+    $game = make_querry("SELECT * FROM games WHERE id = $id;")[0];
+    return $game;
+}
+
+function get_player($id){
+    $e = make_querry("SELECT * FROM players WHERE id = $id;")[0];
+    return $e;
+}
+
+function get_pawn($id){
+    $e = make_querry("SELECT * FROM pawns WHERE id = $id;")[0];
+    return $e;
+}
+
 ?>
