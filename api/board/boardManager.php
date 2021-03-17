@@ -10,7 +10,9 @@ function make_pawns_for_player($player_id){
     $color_idx = $player['color_index'];
     for ($i=0;$i<$PAWNS_FOR_PLAYER;$i++){
         make_no_result_querry(
-            "INSERT INTO pawns(position, color_index, game_id, player_id) VALUES ($i, $color_idx, $game_id, $player_id);"
+            "INSERT INTO pawns(
+                position, color_index, game_id, player_id, position_out_board)
+            VALUES ($i, $color_idx, $game_id, $player_id, $i);"
         );
     };
 }
@@ -70,12 +72,18 @@ function check_pawn_can_be_moved($pawn, $points){
 // moves
 
 function move_pawn($pawn, $points){
+    echo "start moving pawn<br>";
+    var_dump($pawn);
+    // $start_pos = $pawn['position'];
     if($pawn['out_of_board'] == 1){
         $pawn = move_pawn_to_board($pawn);
     } else {
         $pawn = normal_move_pawn_obj($pawn, $points);
     }
     save_pawn_changes($pawn);
+    make_beating($pawn);
+    var_dump($pawn);
+    echo "end moving pawn<br>";
 }
 
 function normal_move_pawn_obj($pawn, $points){
@@ -90,7 +98,11 @@ function normal_move_pawn_obj($pawn, $points){
     $pawn_home_prepos = $PAWNS_HOMES_PREPOS[$pawn_color_idx];
     // if new position is after home, then player is reaching home, so should
     // check if he have space in home
-    if ($new_position >= $pawn_home_pos && $pawn['position'] <= $pawn_home_prepos){
+    if (
+            $new_position >= $pawn_home_pos
+            && abs($pawn['position'] - $pawn_home_prepos) <= 6
+            && $pawn['position'] <= $pawn_home_prepos
+        ){
         $place_in_home = $new_position - $pawn_home_pos;
         // check if is pawn at that position
         $res = make_querry(
@@ -130,5 +142,51 @@ function save_pawn_changes($pawn){
         "UPDATE pawns SET position = $pos, out_of_board = $out_of_board,
         in_home = $in_home WHERE id = $id"
     );
+}
+
+function get_pawn_home_pos($pawn){
+    global $PAWNS_HOMES_POS;
+    $pawn_color_idx = $pawn['color_index'];
+    return $PAWNS_HOMES_POS[$pawn_color_idx];
+}
+
+function get_pawn_home_prepos($pawn){
+    global $PAWNS_HOMES_PREPOS;
+    $pawn_color_idx = $pawn['color_index'];
+    return $PAWNS_HOMES_PREPOS[$pawn_color_idx];
+}
+
+// pawn beating
+
+function make_beating($pawn){
+    $game_id = $pawn['game_id'];
+    $player_id = $pawn['player_id'];
+    $pos = $pawn['position'];
+
+    $res = make_querry(
+        "SELECT * from pawns where game_id = $game_id AND
+        player_id != $player_id AND in_home = 0 AND out_of_board = 0 AND
+        position = $pos"
+    );
+    echo "beating check<br>";
+    var_dump($res);
+    // if not found other pawns at field
+    if (!$res || count($res) == 0){
+        return false;
+    }
+    // beat fields
+    foreach($res as $pawn_to_beat){
+        beat_pawn($pawn_to_beat);
+    }
+}
+
+function beat_pawn($pawn){
+    echo "Beating pawn $pawn<br>";
+    // move pawn out of board
+    $pawn_id = $pawn['id'];
+    $out_pos = $pawn['position_out_board'];
+    make_no_result_querry(
+        "UPDATE pawns SET out_of_board = 1, position = $out_pos
+        WHERE id = $pawn_id;");
 }
 ?>

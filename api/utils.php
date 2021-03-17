@@ -10,6 +10,7 @@ function make_querry($querry){
     $mysqli =  make_connection();
 
     $res = $mysqli->query($querry);
+    if(!$res) return false;
     $arr = $res->fetch_all(MYSQLI_ASSOC);
     
     mysqli_close($mysqli);

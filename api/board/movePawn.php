@@ -1,3 +1,4 @@
+<pre>
 <?php
 include("../includes.php");
 
@@ -14,7 +15,6 @@ function main(){
     $game_id = $_SESSION['game_id'];
     $game = get_game($game_id);
     $pawn_id = $_GET['pawn_id'];
-    var_dump($_GET);
     $pawn = safe_get_pawn($pawn_id);
     // check if pawn is set
     if (!isset($pawn) || !$pawn){

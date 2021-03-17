@@ -60,6 +60,7 @@ function add_player_to_game(){
     // if new player is last, start game
     if($free_spaces == 0){
         $game_id = $_SESSION['game_id'];
+        prepare_players_for_main_game($game_id);
         start_game($game_id);
     }
 }

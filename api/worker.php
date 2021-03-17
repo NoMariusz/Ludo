@@ -38,7 +38,14 @@ function update_turns_by_player_moves(){
         }
         $points = $game['last_throw_points'];
         $game_id = $game['id'];
-        $player = make_querry("SELECT * FROM players WHERE game_id = $game_id AND status = 4")[0];
+        $player = make_querry(
+            "SELECT * FROM players WHERE game_id = $game_id AND status = 4"
+        )[0];
+        // if none player in game has status 4, so active not throw cube pass
+        // change turns
+        if ($player == null){
+            return false;
+        }
         // check if player have move
         if (check_if_player_have_moves($player ,$points)){
             echo "player have moves <br>";
