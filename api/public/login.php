@@ -6,8 +6,8 @@ function main(){
 
     if (!isset($_SESSION)){
         try {
-        create_player();
-        add_player_to_game();
+            create_player($_GET['nick']);
+            add_player_to_game();
         } catch (Exception $e) {
             $response['result'] = false;
         }

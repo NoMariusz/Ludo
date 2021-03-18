@@ -69,9 +69,6 @@ function check_pawn_can_be_moved($pawn, $points){
 // moves
 
 function move_pawn($pawn, $points){
-    echo "start moving pawn<br>";
-    var_dump($pawn);
-    // $start_pos = $pawn['position'];
     if($pawn['out_of_board'] == 1){
         $pawn = move_pawn_to_board($pawn);
     } else {
@@ -79,8 +76,6 @@ function move_pawn($pawn, $points){
     }
     save_pawn_changes($pawn);
     make_beating($pawn);
-    var_dump($pawn);
-    echo "end moving pawn<br>";
 }
 
 function normal_move_pawn_obj($pawn, $points){
@@ -102,7 +97,9 @@ function normal_move_pawn_obj($pawn, $points){
         }
         // get if is pawn at that position
         $res = make_querry(
-            "SELECT * from pawns where game_id = $game_id AND player_id = $player_id AND in_home = 1 AND position = $place_in_home"
+            "SELECT * from pawns where game_id = $game_id
+            AND player_id = $player_id AND in_home = 1
+            AND position = $place_in_home"
         );
         // check if place is free
         if (count($res) != 0){
@@ -167,8 +164,6 @@ function make_beating($pawn){
         player_id != $player_id AND in_home = 0 AND out_of_board = 0 AND
         position = $pos"
     );
-    echo "beating check<br>";
-    var_dump($res);
     // if not found other pawns at field
     if (!$res || count($res) == 0){
         return false;
@@ -180,7 +175,6 @@ function make_beating($pawn){
 }
 
 function beat_pawn($pawn){
-    echo "Beating pawn $pawn<br>";
     // move pawn out of board
     $pawn_id = $pawn['id'];
     $out_pos = $pawn['position_out_board'];

@@ -20,10 +20,13 @@ function main(){
     $points = rand(1, 6);
     // set result to game
     $game_id = $_SESSION['game_id'];
-    make_no_result_querry("UPDATE games SET last_throw_points = $points WHERE id = $game_id");
-    make_no_result_querry("UPDATE games SET throwed_cube = 1 WHERE id = $game_id");
+    make_no_result_querry(
+        "UPDATE games SET last_throw_points = $points WHERE id = $game_id");
+    make_no_result_querry(
+        "UPDATE games SET throwed_cube = 1 WHERE id = $game_id");
     // set to player status 4 so they can move pawns
-    make_no_result_querry("UPDATE players SET status = 4 WHERE id = $player_id");
+    make_no_result_querry(
+        "UPDATE players SET status = 4 WHERE id = $player_id");
     echo json_encode(["points" => $points]);
     return true;
 }
@@ -31,8 +34,8 @@ function main(){
 function can_throw_cube(){
     // get data
     $player_id = $_SESSION['player_id'];
-    $game_id = $_SESSION['game_id'];
-    $player_data = make_querry("SELECT * FROM players WHERE id = $player_id")[0];
+    $player_data = make_querry(
+        "SELECT * FROM players WHERE id = $player_id")[0];
     // check if player can throw cube
     if($player_data['status'] != 3){
         return false;

@@ -24,26 +24,5 @@ function main(){
     start_game_if_needed();
 }
 
-function set_player_ready_status(){
-    $player_id = $_SESSION['player_id'];
-    make_no_result_querry("UPDATE players SET status = 1 WHERE id = $player_id");
-}
-
-function start_game_if_needed(){
-    $game_id = $_SESSION['game_id'];
-    $match_players = get_game_players($game_id);
-    // loop checking if can start
-    $can_start = true;
-    foreach($match_players as $player){
-        // check if someone not started
-        if ($player['status'] == 0 ){
-            $can_start = false;
-        }
-    }
-    if (count($match_players) > 1 and $can_start){
-        start_game($game_id);
-    }
-}
-
 main();
 ?>

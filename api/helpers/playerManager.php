@@ -1,29 +1,13 @@
 <?php
 
-function create_player(){
+function create_player($nick){
+    /* create player by given nick */
     session_start();
-    $nick = $_GET['nick'];
-    $player_id = add_player_to_base($nick);
+    // add data to db
+    $player_id = make_safe_insert_id_querry(
+        "INSERT INTO players(nick) VALUES(?);", "s", [$nick]);
+    // start session
     $_SESSION['player_id'] = $player_id;
-}
-
-function add_player_to_base($nick){
-    return make_safe_insert_id_querry("INSERT INTO players(nick) VALUES(?);", "s", [$nick]);
-    // $mysqli = make_connection();
-    // $stmt = $mysqli-> prepare("INSERT INTO players(nick) VALUES(?);");
-    // $stmt -> bind_param("s", $nick);
-    // $stmt -> execute();
-    
-    // /* get new player id */
-    // $result = mysqli_insert_id($mysqli);
-
-    // /* close statement */
-    // $stmt->close();
-
-    // /* close connection */
-    // $mysqli->close();
-
-    // return $result;
 }
 
 function add_player_to_game(){
@@ -32,12 +16,15 @@ function add_player_to_game(){
     // add player to that game
     $_SESSION['game_id'] = $free_game_id;
     $player_id = $_SESSION['player_id'];
-    make_no_result_querry("UPDATE players SET game_id = $free_game_id WHERE id = $player_id");
+    make_no_result_querry(
+        "UPDATE players SET game_id = $free_game_id WHERE id = $player_id");
     // get game free_spaces and decrement it free_spaces
     $game = make_querry("SELECT * FROM games WHERE id = $free_game_id");
     $free_spaces = $game[0]['free_spaces'];
     $free_spaces --;
-    make_no_result_querry("UPDATE games SET free_spaces = $free_spaces WHERE id = $free_game_id");
+    make_no_result_querry(
+        "UPDATE games SET free_spaces = $free_spaces WHERE id = $free_game_id"
+    );
     // if new player is last, start game
     if($free_spaces == 0){
         $game_id = $_SESSION['game_id'];
@@ -45,6 +32,8 @@ function add_player_to_game(){
         start_game($game_id);
     }
 }
+
+// changing player data, preparing him for game
 
 function prepare_players_for_main_game($game_id){
     // prepare all unprepared players from game to game
@@ -81,6 +70,16 @@ function add_color_to_player($player_id){
     }
     // set color to player
     $color_key = array_rand($available_colors);
-    make_no_result_querry("UPDATE players SET color_index = '$color_key' WHERE id = $player_id");
+    make_no_result_querry(
+        "UPDATE players SET color_index = '$color_key' WHERE id = $player_id"
+    );
+}
+
+// set player ready
+
+function set_player_ready_status(){
+    $player_id = $_SESSION['player_id'];
+    make_no_result_querry(
+        "UPDATE players SET status = 1 WHERE id = $player_id");
 }
 
