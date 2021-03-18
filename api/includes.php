@@ -10,4 +10,5 @@ include_once($root.'/api/constants.php');
 include_once($root.'/api/helpers/gameManager.php');
 include_once($root.'/api/helpers/boardManager.php');
 include_once($root.'/api/helpers/playerManager.php');
+include_once($root.'/api/helpers/turnManager.php');
 ?>
