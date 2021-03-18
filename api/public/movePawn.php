@@ -3,7 +3,7 @@
 include("../includes.php");
 
 function main(){
-    // set playe to ready and make other ready stuff
+    // set player to ready and make other ready stuff
     session_start();
     // check if is made session with player
     if(!is_player_logged()){

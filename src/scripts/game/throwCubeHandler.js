@@ -2,7 +2,7 @@ import GameRefresher from "./GameRefresher.js";
 
 
 const throwCube = async () => {
-    const res = await fetch("api/board/throwCube.php");
+    const res = await fetch("api/public/throwCube.php");
     if(!res.ok){
         alert("Can not throw cube now!");
         return false;

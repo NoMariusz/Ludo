@@ -18,6 +18,7 @@ function loop(){
 }
 
 function update_turns(){
+    /* update turn if turn time end */
     global $TURN_TIME;
     $running_games = make_querry("SELECT * from games WHERE status = 1;");
     foreach($running_games as $game){
@@ -30,6 +31,7 @@ function update_turns(){
 }
 
 function update_turns_by_player_moves(){
+    /* update turn if player not have moves to made */
     $running_games = make_querry("SELECT * from games WHERE status = 1;");
     foreach($running_games as $game){
         // if in match not throwed cube then pass

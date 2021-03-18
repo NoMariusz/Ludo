@@ -1,7 +1,7 @@
 <?php
 
 function make_connection(){
-    include('hidden.php');
+    global $host, $user, $passwd, $db;
     $mysqli = mysqli_connect($host, $user, $passwd, $db);
     return $mysqli;
 }
@@ -36,6 +36,40 @@ function make_no_result_querry($querry){
     mysqli_close($mysqli);
 
     return($res);
+}
+
+function make_insert_id_querry($querry){
+    $mysqli = make_connection();
+    $mysqli->query($querry);
+    
+    /* get insert id */
+    $result = mysqli_insert_id($mysqli);
+
+    /* close connection */
+    $mysqli->close();
+
+    return $result;
+}
+
+function make_safe_insert_id_querry($sql, $types = null, $params = null){
+    $mysqli = make_connection();
+
+    $stmt = $mysqli->prepare($sql);
+    $stmt->bind_param($types, ...$params);
+
+    // if execute not succeed
+    if(!$stmt->execute()) return false;
+
+    // get insert id
+    $result =  mysqli_insert_id($mysqli);
+
+    // close statement
+    $stmt->close();
+
+    // close connection
+    $mysqli->close();
+
+    return $result;
 }
 
 function is_player_logged(){

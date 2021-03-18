@@ -1,6 +1,18 @@
 <?php
-/* Is a util class so not include anything but is used at includes.php and has
-included everything */
+
+function make_new_game(){
+    return make_insert_id_querry("INSERT INTO games() VALUES();");;
+}
+
+function get_free_game_id(){
+    $result = make_querry("SELECT * FROM games WHERE status = 0 AND free_spaces > 0;");
+    if(isset($result[0]['id'])){
+        return $result[0]['id'];
+    }
+    // making new game if not found old
+    $new_game_id = make_new_game();
+    return $new_game_id;
+}
 
 function get_game_players($game_id){
     return make_querry("SELECT * FROM players WHERE game_id = $game_id");

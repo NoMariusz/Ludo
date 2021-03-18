@@ -5,7 +5,6 @@ import {
     COLORS,
     BOARD_MARGIN,
     BOARD_SIZE,
-    PAWNS_COUNT,
     DICE_SIZE,
 } from "../constants.js";
 import Pawn from "./Pawn.js";
@@ -13,7 +12,6 @@ import Pawn from "./Pawn.js";
 export default class GameRefresher {
     constructor() {
         this.pawns = [];
-        this.pawnsLoaded = false;
     }
 
     refresh = async () => {
@@ -32,7 +30,7 @@ export default class GameRefresher {
     };
 
     getDataFromServer = async () => {
-        const res = await fetch("api/game/getGameData.php");
+        const res = await fetch("api/public/getGameData.php");
         if (!res.ok) {
             console.error("Game data response not ok");
             return null;
@@ -156,12 +154,7 @@ export default class GameRefresher {
 
     loadPawns = (pawns, ctx) => {
         // modify pawns list
-        if (this.pawnsLoaded) {
-            this.updatePawns(pawns);
-        } else {
-            this.makePawns(pawns);
-            this.pawnsLoaded = true;
-        }
+        this.updatePawns(pawns);
         // render pawns
         this.pawns.forEach(pawn => {
             pawn.render(ctx);
@@ -183,20 +176,33 @@ export default class GameRefresher {
         });
     };
 
-    updatePawns = (pawns) => {
-        pawns.forEach((pawn) => {
+    updatePawns = (newPawns) => {
+        /* update pawns or create new */
+        newPawns.forEach((pawn) => {
             const pawnClass = this.pawns.find((e) => e.id == pawn.id);
             if (pawnClass) {
+                // if pawn exist only load new position
                 pawnClass.loadPosition(
                     pawn.position,
                     pawn.out_of_board,
                     pawn.in_home,
                 );
+            } else {
+                // if pawn from data is not in pawns add them
+                const pawnClass = new Pawn(
+                    pawn.id,
+                    pawn.position,
+                    pawn.color_index,
+                    false,
+                    pawn.out_of_board,
+                    pawn.in_home,
+                );
+                this.pawns.push(pawnClass); 
             }
         });
     };
 
-    // diplaying cuba and points
+    // diplaying cub and points
 
     loadCube = async (data) => {
         const points = data.game.last_throw_points;

@@ -1,5 +1,4 @@
 <?php
-$PAWNS_FOR_PLAYER = 4;
 
 // pawns stuff
 
@@ -95,19 +94,24 @@ function normal_move_pawn_obj($pawn, $points){
     // if new position is after home, then player is reaching home, so should
     // check if he have space in home
     if (is_moved_to_home($pawn, $new_position)){
+        // get position at home after move
         $place_in_home = $new_position - $pawn_home_pos;
-        // check if is pawn at that position
+        // check if position in house is proper
+        if ($place_in_home >= 4){
+            return false;
+        }
+        // get if is pawn at that position
         $res = make_querry(
             "SELECT * from pawns where game_id = $game_id AND player_id = $player_id AND in_home = 1 AND position = $place_in_home"
         );
-        // if that place in home free
-        if (count($res) == 0){
-            $pawn['in_home'] = 1;
-            $pawn['position'] = $place_in_home;
-            return $pawn;
-        } else {
+        // check if place is free
+        if (count($res) != 0){
             return false;
         }
+        // if that place in home free
+        $pawn['in_home'] = 1;
+        $pawn['position'] = $place_in_home;
+        return $pawn;
     }
     // if normal move
     $pawn['position'] = $new_position;

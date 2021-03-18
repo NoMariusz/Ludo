@@ -5,7 +5,7 @@ const initSliderHandler = () => {
 
 const handleReadyChange = async (e) => {
     // send to socket player ready
-    const res = await fetch("api/game/setPlayerReady.php");
+    const res = await fetch("api/public/setPlayerReady.php");
     if(!res.ok){
         console.error("Can not set player ready!");
     }

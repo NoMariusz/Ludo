@@ -1,6 +1,6 @@
 const joinToGame = async () => {
     const playerNick = document.getElementById('playerNick');
-    let path = `api/login.php?nick=${playerNick.value}`
+    let path = `api/public/login.php?nick=${playerNick.value}`
     
     let res = await fetch(path)
 

@@ -50,7 +50,7 @@ export default class Pawn{
     }
 
     async handlePanClick(){
-        let path = `api/board/movePawn.php?pawn_id=${this.id}`
+        let path = `api/public/movePawn.php?pawn_id=${this.id}`
 
         let res = await fetch(path)
     
