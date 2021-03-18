@@ -42,9 +42,7 @@ function check_if_player_have_moves($player, $points){
 }
 
 function check_pawn_can_be_moved($pawn, $points){
-    $game_id = $pawn['game_id'];
     $player_id = $pawn['player_id'];
-    $game = get_game($game_id);
     $player = get_player($player_id);
     // player must have status 4 to move pawns
     if($player['status'] != 4){
@@ -87,22 +85,16 @@ function move_pawn($pawn, $points){
 }
 
 function normal_move_pawn_obj($pawn, $points){
-    global $PAWNS_HOMES_POS, $FIELDS_COUNT, $PAWNS_HOMES_PREPOS;
+    global $FIELDS_COUNT;
     $game_id = $pawn['game_id'];
     $player_id = $pawn['player_id'];
     $new_position = $pawn['position'] + $points;
     $new_position = $new_position % $FIELDS_COUNT;
-    $pawn_color_idx = $pawn['color_index'];
 
-    $pawn_home_pos = $PAWNS_HOMES_POS[$pawn_color_idx];
-    $pawn_home_prepos = $PAWNS_HOMES_PREPOS[$pawn_color_idx];
+    $pawn_home_pos = get_pawn_home_pos($pawn);
     // if new position is after home, then player is reaching home, so should
     // check if he have space in home
-    if (
-            $new_position >= $pawn_home_pos
-            && abs($pawn['position'] - $pawn_home_prepos) <= 6
-            && $pawn['position'] <= $pawn_home_prepos
-        ){
+    if (is_moved_to_home($pawn, $new_position)){
         $place_in_home = $new_position - $pawn_home_pos;
         // check if is pawn at that position
         $res = make_querry(
@@ -123,10 +115,7 @@ function normal_move_pawn_obj($pawn, $points){
 }
 
 function move_pawn_to_board($pawn){
-    global $PAWNS_HOMES_POS;
-    // get data
-    $pawn_color_idx = $pawn['color_index'];
-    $pawn_home_pos = $PAWNS_HOMES_POS[$pawn_color_idx];
+    $pawn_home_pos = get_pawn_home_pos($pawn);
     // move pawn to board
     $pawn['out_of_board'] = 0;
     $pawn['position'] = $pawn_home_pos;
@@ -150,10 +139,16 @@ function get_pawn_home_pos($pawn){
     return $PAWNS_HOMES_POS[$pawn_color_idx];
 }
 
-function get_pawn_home_prepos($pawn){
-    global $PAWNS_HOMES_PREPOS;
-    $pawn_color_idx = $pawn['color_index'];
-    return $PAWNS_HOMES_PREPOS[$pawn_color_idx];
+function is_moved_to_home($pawn, $new_position){
+    // get data
+    $pos = $pawn['position'];
+    $pawn_home_pos = get_pawn_home_pos($pawn);
+    // for yellow becouse on his base is change of position numering
+    if ($pawn['color_index'] == 0){
+        return $pos > $new_position;
+    }
+    // for normal color
+    return $new_position >= $pawn_home_pos && $pos < $pawn_home_pos;
 }
 
 // pawn beating

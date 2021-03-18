@@ -17,7 +17,7 @@ function main(){
 
     $player_id = $_SESSION['player_id'];
     // random number
-    $points = rand(1, 1);
+    $points = rand(17, 17);
     // set result to game
     $game_id = $_SESSION['game_id'];
     make_no_result_querry("UPDATE games SET last_throw_points = $points WHERE id = $game_id");
