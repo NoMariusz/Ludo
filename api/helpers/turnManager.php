@@ -4,7 +4,7 @@ function change_turn($game_id){
     // change active player
     change_active_player($game_id);
     // change values at turn start
-    make_no_result_querry(
+    DbManager::make_no_result_querry(
         "UPDATE games SET turn_start_time = CURRENT_TIMESTAMP(),
         throwed_cube =  0 WHERE id = $game_id"
     );
@@ -14,7 +14,7 @@ function change_active_player($game_id){
     /* function changing player having turn in base */
     $players = get_game_players($game_id);
     // find active player
-    $active_player = make_querry(
+    $active_player = DbManager::make_querry(
         "SELECT * from players WHERE game_id = $game_id AND status > 2;");
     // find what index have active player
     $active_idx = array_search($active_player[0], $players);

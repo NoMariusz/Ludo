@@ -10,9 +10,9 @@ function main(){
     }
     // get game informations and players
     $game_id = $_SESSION['game_id'];
-    $game_data = make_querry("SELECT * FROM games WHERE id = $game_id");
+    $game_data = DbManager::make_querry("SELECT * FROM games WHERE id = $game_id");
     $players_data = get_game_players($game_id);
-    $pawns = make_querry("SELECT * FROM pawns WHERE game_id = $game_id");
+    $pawns = DbManager::make_querry("SELECT * FROM pawns WHERE game_id = $game_id");
     // return informations
     echo json_encode(array(
         'game' => $game_data[0],

@@ -20,7 +20,8 @@ function loop(){
 function update_turns(){
     /* update turn if turn time end */
     global $TURN_TIME;
-    $running_games = make_querry("SELECT * from games WHERE status = 1;");
+    $running_games = DbManager::make_querry(
+        "SELECT * from games WHERE status = 1;");
     foreach($running_games as $game){
         $start_time = strtotime($game['turn_start_time']);
         $time_pass = time() - $start_time;
@@ -32,7 +33,8 @@ function update_turns(){
 
 function update_turns_by_player_moves(){
     /* update turn if player not have moves to made */
-    $running_games = make_querry("SELECT * from games WHERE status = 1;");
+    $running_games = DbManager::make_querry(
+        "SELECT * from games WHERE status = 1;");
     foreach($running_games as $game){
         // if in match not throwed cube then pass
         if($game['throwed_cube'] == 0){
@@ -40,7 +42,7 @@ function update_turns_by_player_moves(){
         }
         $points = $game['last_throw_points'];
         $game_id = $game['id'];
-        $player = make_querry(
+        $player = DbManager::make_querry(
             "SELECT * FROM players WHERE game_id = $game_id AND status = 4"
         )[0];
         // if none player in game has status 4, so active not throw cube pass

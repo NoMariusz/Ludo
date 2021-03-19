@@ -11,7 +11,7 @@ function main(){
     
     // get player and chcek if his code is 0
     $player_id = $_SESSION['player_id'];
-    $player_data = make_querry("SELECT * FROM players WHERE id = $player_id");
+    $player_data = DbManager::make_querry("SELECT * FROM players WHERE id = $player_id");
     if($player_data[0]['status'] != 0){
         http_response_code(404);
         return false;

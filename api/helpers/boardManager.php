@@ -4,11 +4,12 @@
 
 function make_pawns_for_player($player_id){
     global $PAWNS_FOR_PLAYER;
-    $player = make_querry("SELECT * FROM players WHERE id = $player_id")[0];
+    $player = DbManager::make_querry(
+        "SELECT * FROM players WHERE id = $player_id")[0];
     $game_id = $player['game_id'];
     $color_idx = $player['color_index'];
     for ($i=0;$i<$PAWNS_FOR_PLAYER;$i++){
-        make_no_result_querry(
+        DbManager::make_no_result_querry(
             "INSERT INTO pawns(
                 position, color_index, game_id, player_id, position_out_board)
             VALUES ($i, $color_idx, $game_id, $player_id, $i);"
@@ -20,7 +21,8 @@ function safe_get_pawn($id){
     if(!$id){
         return false;
     }
-    $data = make_safe_querry("SELECT * FROM pawns WHERE id  = ?", "d", [$id]);
+    $data = DbManager::make_safe_querry(
+        "SELECT * FROM pawns WHERE id  = ?", "d", [$id]);
     if(count($data) == 0){
         return false;
     }
@@ -31,7 +33,8 @@ function safe_get_pawn($id){
 
 function check_if_player_have_moves($player, $points){
     $player_id = $player['id'];
-    $pawns = make_querry("SELECT * FROM pawns WHERE player_id = $player_id");
+    $pawns =DbManager::make_querry(
+        "SELECT * FROM pawns WHERE player_id = $player_id");
     foreach($pawns as $pawn){
         if (check_pawn_can_be_moved($pawn, $points)){
             return true;
@@ -96,7 +99,7 @@ function normal_move_pawn_obj($pawn, $points){
             return false;
         }
         // get if is pawn at that position
-        $res = make_querry(
+        $res = DbManager::make_querry(
             "SELECT * from pawns where game_id = $game_id
             AND player_id = $player_id AND in_home = 1
             AND position = $place_in_home"
@@ -128,7 +131,7 @@ function save_pawn_changes($pawn){
     $id = $pawn['id'];
     $out_of_board = $pawn['out_of_board'];
     $in_home = $pawn['in_home'];
-    make_no_result_querry(
+    DbManager::make_no_result_querry(
         "UPDATE pawns SET position = $pos, out_of_board = $out_of_board,
         in_home = $in_home WHERE id = $id"
     );
@@ -159,7 +162,7 @@ function make_beating($pawn){
     $player_id = $pawn['player_id'];
     $pos = $pawn['position'];
 
-    $res = make_querry(
+    $res = DbManager::make_querry(
         "SELECT * from pawns where game_id = $game_id AND
         player_id != $player_id AND in_home = 0 AND out_of_board = 0 AND
         position = $pos"
@@ -178,7 +181,7 @@ function beat_pawn($pawn){
     // move pawn out of board
     $pawn_id = $pawn['id'];
     $out_pos = $pawn['position_out_board'];
-    make_no_result_querry(
+    DbManager::make_no_result_querry(
         "UPDATE pawns SET out_of_board = 1, position = $out_pos
         WHERE id = $pawn_id;");
 }

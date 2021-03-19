@@ -1,11 +1,11 @@
 <?php
 
 function make_new_game(){
-    return make_insert_id_querry("INSERT INTO games() VALUES();");;
+    return DbManager::make_insert_id_querry("INSERT INTO games() VALUES();");
 }
 
 function get_free_game_id(){
-    $result = make_querry(
+    $result = DbManager::make_querry(
         "SELECT * FROM games WHERE status = 0 AND free_spaces > 0;");
     if(isset($result[0]['id'])){
         return $result[0]['id'];
@@ -19,7 +19,8 @@ function get_free_game_id(){
 
 function start_game($game_id){
     // set game status started
-    make_no_result_querry("UPDATE games SET status = 1 WHERE id = $game_id");
+    DbManager::make_no_result_querry(
+        "UPDATE games SET status = 1 WHERE id = $game_id");
     // set active player
     $players = get_game_players($game_id);
     $idx = random_int(0, count($players)-1);
@@ -27,19 +28,15 @@ function start_game($game_id){
     set_player_active($active_id, $game_id);
 }
 
-function get_game_players($game_id){
-    return make_querry("SELECT * FROM players WHERE game_id = $game_id");
-}
-
 function set_player_active($player_id, $game_id){
     // set status to not active players
-    make_no_result_querry(
+    DbManager::make_no_result_querry(
         "UPDATE players SET status = 2 WHERE game_id = $game_id");
     // set active player status
-    make_no_result_querry(
+    DbManager::make_no_result_querry(
         "UPDATE players SET status = 3 WHERE id = $player_id");
     // update start turn time
-    make_no_result_querry(
+    DbManager::make_no_result_querry(
         "UPDATE games SET turn_start_time = CURRENT_TIMESTAMP()
         WHERE id = $game_id"
     );
