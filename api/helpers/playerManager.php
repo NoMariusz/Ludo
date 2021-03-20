@@ -7,31 +7,7 @@ function create_player($nick){
     $player_id = DbManager::make_safe_insert_id_querry(
         "INSERT INTO players(nick) VALUES(?);", "s", [$nick]);
     // start session
-    $_SESSION['player_id'] = $player_id;
-}
-
-function add_player_to_game(){
-    // get free game
-    $free_game_id = get_free_game_id();
-    // add player to that game
-    $_SESSION['game_id'] = $free_game_id;
-    $player_id = $_SESSION['player_id'];
-    DbManager::make_no_result_querry(
-        "UPDATE players SET game_id = $free_game_id WHERE id = $player_id");
-    // get game free_spaces and decrement it free_spaces
-    $game = DbManager::make_querry(
-        "SELECT * FROM games WHERE id = $free_game_id");
-    $free_spaces = $game[0]['free_spaces'];
-    $free_spaces --;
-    DbManager::make_no_result_querry(
-        "UPDATE games SET free_spaces = $free_spaces WHERE id = $free_game_id"
-    );
-    // if new player is last, start game
-    if($free_spaces == 0){
-        $game_id = $_SESSION['game_id'];
-        prepare_players_for_main_game($game_id);
-        start_game($game_id);
-    }
+    return $player_id;
 }
 
 // changing player data, preparing him for game

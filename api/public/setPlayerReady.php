@@ -21,7 +21,9 @@ function main(){
     // prepare
     prepare_player_for_main_game($player_id);
     // set game started if all players ready or is 4 players
-    start_game_if_needed();
+    $game_id = $_SESSION['game_id'];
+    $gameManager = new GameManager($game_id);
+    $gameManager->start_game_if_can();
 }
 
 main();

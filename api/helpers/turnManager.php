@@ -24,7 +24,7 @@ function change_active_player($game_id){
         $active_idx = 0;
     }
     $active_id = $players[$active_idx]['id'];
-    set_player_active($active_id, $game_id);
+    GameManager::set_player_active($active_id, $game_id);
 };
 
 ?>
