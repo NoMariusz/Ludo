@@ -10,7 +10,7 @@ function create_player($nick){
     return $player_id;
 }
 
-// changing player data, preparing him for game
+// preparing him for game
 
 function prepare_players_for_main_game($game_id){
     // prepare all unprepared players from game to game
@@ -26,7 +26,7 @@ function prepare_player_for_main_game($player_id){
     // add him color
     add_color_to_player($player_id);
     // make pawns when have color
-    make_pawns_for_player($player_id);
+    BoardManager::make_pawns_for_player($player_id);
 }
 
 function add_color_to_player($player_id){
@@ -58,5 +58,20 @@ function set_player_ready_status(){
     $player_id = $_SESSION['player_id'];
     DbManager::make_no_result_querry(
         "UPDATE players SET status = 1 WHERE id = $player_id");
+}
+
+// player operations
+
+function check_if_player_have_moves($player, $points){
+    $player_id = $player['id'];
+    $pawns =DbManager::make_querry(
+        "SELECT * FROM pawns WHERE player_id = $player_id");
+    foreach($pawns as $pawn){
+        $boardManager = new BoardManager($pawn);
+        if ($boardManager->check_pawn_can_be_moved($points)){
+            return true;
+        }
+    }
+    return false;
 }
 

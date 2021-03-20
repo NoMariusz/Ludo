@@ -36,9 +36,9 @@ function update_turns_by_time($game){
 
 function update_turns_by_player_moves($game){
     /* update turn if player not have moves to made */
-    // if in match not throwed cube then pass
+    // if in match not throwed cube then not change turns
     if($game['throwed_cube'] == 0){
-        continue;
+        return false;
     }
     $points = $game['last_throw_points'];
     $game_id = $game['id'];
@@ -51,7 +51,7 @@ function update_turns_by_player_moves($game){
         return false;
     }
     // check if player have move
-    if (check_if_player_have_moves($player ,$points)){
+    if (check_if_player_have_moves($player, $points)){
         echo "player have moves <br>";
     } else {
         // if player have not any move
