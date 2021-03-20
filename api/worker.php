@@ -26,7 +26,8 @@ function update_turns(){
         $start_time = strtotime($game['turn_start_time']);
         $time_pass = time() - $start_time;
         if ($time_pass >= $TURN_TIME){
-            change_turn($game['id']);
+            $turnManager = new TurnManager($game['id']);
+            $turnManager->change_turn();
         } 
     }
 }
@@ -55,7 +56,8 @@ function update_turns_by_player_moves(){
             echo "player have moves <br>";
         } else {
             // if player have not any move
-            change_turn($game_id);
+            $turnManager = new TurnManager($game_id);
+            $turnManager->change_turn();
         }
     }
 }

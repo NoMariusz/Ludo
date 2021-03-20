@@ -36,7 +36,8 @@ function main(){
     // make move
     move_pawn($pawn, $points);
     // when player move pawn change turn
-    change_turn($game_id);
+    $turnManager = new TurnManager($game_id);
+    $turnManager->change_turn();
     return true;
 }
 
