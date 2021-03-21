@@ -168,21 +168,6 @@ export default class GameRefresher {
         });
     };
 
-    makePawns = (pawns) => {
-        this.pawns = [];
-        pawns.forEach((pawn) => {
-            const pawnClass = new Pawn(
-                pawn.id,
-                pawn.position,
-                pawn.color_index,
-                false,
-                pawn.out_of_board,
-                pawn.in_home
-            );
-            this.pawns.push(pawnClass);
-        });
-    };
-
     updatePawns = (data) => {
         /* update pawns or create new */
         data.pawns.forEach((pawn) => {

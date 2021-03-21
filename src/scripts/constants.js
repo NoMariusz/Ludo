@@ -6,6 +6,8 @@ export const COLORS = ["yellow", "red", "green", "blue"];
 export const PREETY_COLORS = ["#aeb100", "#ac1a00", "#00a344", "#004992"];
 export const MAIN_COLOR = "#ff8f26";
 
+export const PAWN_FLASHING_TIME = 500;
+
 export const WIDTH = 1000;
 export const HEIGHT = 500;
 export const BOARD_MARGIN = 250;

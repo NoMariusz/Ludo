@@ -12,8 +12,11 @@ export default class Pawn {
         this.color_idx = data.color_index;
         this.loadPosition(data);
         this.id = data.id;
+
         this.ownerId = ownerId;
         this.canBeMoved = this.checkCanMovePawn(data);
+        this.canMoveColor = MAIN_COLOR;
+        this.live = true
     }
 
     updatePawn(data) {
@@ -34,6 +37,11 @@ export default class Pawn {
     }
 
     render(ctx) {
+        this.drawPawn(ctx);
+        this.makeButton();
+    }
+
+    drawPawn(ctx) {
         ctx.beginPath();
         if (this.position == undefined) {
             return false;
@@ -44,12 +52,12 @@ export default class Pawn {
         ctx.strokeStyle = "#000";
         ctx.stroke();
         ctx.fillStyle = this.canBeMoved
-            ? MAIN_COLOR
+            ? this.canMoveColor
             : PREETY_COLORS[this.color_idx];
         ctx.fill();
-
-        this.makeButton();
     }
+
+    // button stuff
 
     makeButton() {
         const block = document.querySelector("#gameBlock");
@@ -75,6 +83,8 @@ export default class Pawn {
             alert("Can not move pawn");
         }
     }
+
+    // pawn move/can move hints
 
     checkCanMovePawn = (data) => {
         if (data.can_be_moved != "1") {
