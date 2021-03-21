@@ -1,7 +1,19 @@
+/* containers */
+
 .gameContainer{
     display: flex;
     flex-direction: column;
 }
+
+.gameBody{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+/* block with users info */
 
 .usersBlock{
     display: flex;
@@ -18,6 +30,10 @@
     margin: 0.5rem;
     text-align: center;
     width: 10%;
+}
+
+.mainPlayerPin{
+    border-color: var(--main);
 }
 
 /* time noticer*/
@@ -39,6 +55,7 @@
 }
 
 /* pin colors */
+
 .gray{
     background-color: var(--gray-dark);
 }
@@ -59,15 +76,7 @@
     background-color: rgb(0, 163, 68);
 }
 
-/**/
-
-.gameBody{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-width: 100%;
-    min-height: 100%;
-}
+/* throwing cube */
 
 #throwCube{
     position: fixed;

@@ -64,20 +64,25 @@ export default class GameRefresher {
         ) {
             this.loadDataToPin(
                 playersPin[playerIndex],
-                data.players[playerIndex]
+                data.players[playerIndex],
+                data.player_id
             );
         }
     };
 
-    loadDataToPin = (pin, playerData) => {
+    loadDataToPin = (pin, playerData, mainPlaierId) => {
         // add p tag
         pin.innerHTML = "";
         const p = document.createElement("p");
         p.innerText = playerData.nick;
         pin.appendChild(p);
-        // add kolor
+        // add color
         pin.classList.remove("gray");
         pin.classList.add(COLORS[playerData.color_index]);
+        // add other styling if pin belong to actual user
+        if (playerData.id == mainPlaierId){
+            pin.classList.add("mainPlayerPin");
+        }
     };
 
     // loading ready slider
