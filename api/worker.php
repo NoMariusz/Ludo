@@ -42,9 +42,7 @@ function update_turns_by_player_moves($game){
     }
     $points = $game['last_throw_points'];
     $game_id = $game['id'];
-    $player = DbManager::make_querry(
-        "SELECT * FROM players WHERE game_id = $game_id AND status = 4"
-    )[0];
+    $player = get_game_active_player($game_id);
     // if none player in game has status 4, so active not throw cube pass
     // change turns
     if ($player == null){

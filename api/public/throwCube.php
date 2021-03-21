@@ -27,6 +27,9 @@ function main(){
     // set to player status 4 so they can move pawns
     DbManager::make_no_result_querry(
         "UPDATE players SET status = 4 WHERE id = $player_id");
+    // change if pawns can be moved in game
+    BoardManager::load_move_status_for_pawns($game_id);
+
     echo json_encode(["points" => $points]);
     return true;
 }

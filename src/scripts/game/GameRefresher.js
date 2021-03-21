@@ -82,7 +82,7 @@ export default class GameRefresher {
         pin.classList.remove("gray");
         pin.classList.add(COLORS[playerData.color_index]);
         // add other styling if pin belong to actual user
-        if (playerData.id == mainPlaierId){
+        if (playerData.id == mainPlaierId) {
             pin.classList.add("mainPlayerPin");
         }
     };
@@ -139,12 +139,12 @@ export default class GameRefresher {
     loadBoard = async (data) => {
         const canvas = document.querySelector("#gameCanvas");
         // to clear all buttons in canvas
-        canvas.innerHTML = ''
+        canvas.innerHTML = "";
         const ctx = canvas.getContext("2d");
         // load board image
         await this.loadBoardImage(ctx);
         // load pawns
-        this.loadPawns(data.pawns, ctx);
+        this.loadPawns(data, ctx);
     };
 
     loadBoardImage = async (ctx) => {
@@ -156,14 +156,14 @@ export default class GameRefresher {
                 resolv(true);
             };
             img.src = "./src/gfx/board.svg";
-        })
+        });
     };
 
-    loadPawns = (pawns, ctx) => {
+    loadPawns = (data, ctx) => {
         // modify pawns list
-        this.updatePawns(pawns);
+        this.updatePawns(data);
         // render pawns
-        this.pawns.forEach(pawn => {
+        this.pawns.forEach((pawn) => {
             pawn.render(ctx);
         });
     };
@@ -177,34 +177,23 @@ export default class GameRefresher {
                 pawn.color_index,
                 false,
                 pawn.out_of_board,
-                pawn.in_home,
+                pawn.in_home
             );
             this.pawns.push(pawnClass);
         });
     };
 
-    updatePawns = (newPawns) => {
+    updatePawns = (data) => {
         /* update pawns or create new */
-        newPawns.forEach((pawn) => {
+        data.pawns.forEach((pawn) => {
             const pawnClass = this.pawns.find((e) => e.id == pawn.id);
             if (pawnClass) {
-                // if pawn exist only load new position
-                pawnClass.loadPosition(
-                    pawn.position,
-                    pawn.out_of_board,
-                    pawn.in_home,
-                );
+                // if pawn exist only load new data
+                pawnClass.updatePawn(pawn);
             } else {
                 // if pawn from data is not in pawns add them
-                const pawnClass = new Pawn(
-                    pawn.id,
-                    pawn.position,
-                    pawn.color_index,
-                    false,
-                    pawn.out_of_board,
-                    pawn.in_home,
-                );
-                this.pawns.push(pawnClass); 
+                const pawnClass = new Pawn(pawn, data.player_id);
+                this.pawns.push(pawnClass);
             }
         });
     };
@@ -217,15 +206,15 @@ export default class GameRefresher {
         const ctx = canvas.getContext("2d");
         const isCubeThrowed = data.game.throwed_cube == 1;
         this.loadDiceImage(ctx, points, isCubeThrowed);
-    }
+    };
 
     loadDiceImage = async (ctx, points, show) => {
         return new Promise((resolv, reject) => {
             // clear old dice
-            const xy = (BOARD_MARGIN - DICE_SIZE)/2
+            const xy = (BOARD_MARGIN - DICE_SIZE) / 2;
             ctx.clearRect(xy, xy, DICE_SIZE, DICE_SIZE);
             // end work if should not show
-            if (!show){
+            if (!show) {
                 resolv(true);
                 return false;
             }
@@ -236,34 +225,34 @@ export default class GameRefresher {
                 resolv(true);
             };
             img.src = `./src/gfx/cubes/${points}.jpg`;
-        })
+        });
     };
 
     // change visibility of throwCube button
 
     loadThrowButton = (data) => {
-        const throwCube = document.getElementById('throwCube');
-        if (this.shouldThrowBtnDisplayed(data)){
-            throwCube.classList.remove('hidden');
+        const throwCube = document.getElementById("throwCube");
+        if (this.shouldThrowBtnDisplayed(data)) {
+            throwCube.classList.remove("hidden");
         } else {
-            throwCube.classList.add('hidden');
+            throwCube.classList.add("hidden");
         }
-    }
+    };
 
     shouldThrowBtnDisplayed = (data) => {
-        if (data.game.throwed_cube == 1){
+        if (data.game.throwed_cube == 1) {
             return false;
         }
-        const mainPlayer = this.getPlayerById(data, data.player_id)
-        if (mainPlayer.status != 3){
+        const mainPlayer = this.getPlayerById(data, data.player_id);
+        if (mainPlayer.status != 3) {
             return false;
         }
         return true;
-    }
+    };
 
     // utils
 
     getPlayerById = (data, playerId) => {
-        return data.players.find(e => e.id == playerId);
-    }
+        return data.players.find((e) => e.id == playerId);
+    };
 }

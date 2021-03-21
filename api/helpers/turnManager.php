@@ -15,6 +15,10 @@ class TurnManager{
             "UPDATE games SET turn_start_time = CURRENT_TIMESTAMP(),
             throwed_cube =  0 WHERE id = $this->game_id"
         );
+        // set all pawns in game can not be moved
+        DbManager::make_no_result_querry(
+            "UPDATE pawns SET can_be_moved = 0 WHERE game_id = $this->game_id"
+        );
     }
 
     private function change_active_player(){

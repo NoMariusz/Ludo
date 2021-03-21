@@ -30,4 +30,15 @@ function get_game_players($game_id){
         "SELECT * FROM players WHERE game_id = $game_id");
 }
 
+function get_game_active_player($game_id){
+    return DbManager::make_querry(
+        "SELECT * FROM players WHERE game_id = $game_id AND status = 4"
+    )[0];
+}
+
+function get_player_pawns($player_id){
+    return DbManager::make_querry(
+        "SELECT * FROM pawns WHERE player_id = $player_id");
+}
+
 ?>

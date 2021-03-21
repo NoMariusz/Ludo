@@ -44,12 +44,12 @@ class BoardManager{
         $player = get_player($player_id);
         // player must have status 4 to move pawns
         if($player['status'] != 4){
-            echo "Pawn can not be moved: player not have turn<br>";
+            // echo "Pawn can not be moved: player not have turn<br>";
             return false;
         }
         // if pawn is in home then can not move
         if ($this->pawn['in_home'] == 1){
-            echo "Pawn can not be moved: pawn in home<br>";
+            // echo "Pawn can not be moved: pawn in home<br>";
             return false;
         }
         // check if can go on board
@@ -57,7 +57,7 @@ class BoardManager{
             if ($points == 6 || $points == 1){
                 return true;
             }
-            echo "Pawn can not be moved: pawn out of board and points not 6 or 1<br>";
+            // echo "Pawn can not be moved: pawn out of board and points not 6 or 1<br>";
             // if out of board only 1 or 6 can move pawn
             return false;
         }
@@ -93,7 +93,7 @@ class BoardManager{
             $place_in_home = $new_position - $pawn_home_pos;
             // check if position in house is proper
             if ($place_in_home >= 4){
-                echo "Pawn can not be moved: not find field at home<br>";
+                // echo "Pawn can not be moved: not find field at home<br>";
                 return false;
             }
             // get if is pawn at that position
@@ -104,7 +104,7 @@ class BoardManager{
             );
             // check if place is free
             if (count($res) != 0){
-                echo "Pawn can not be moved: not enough space in home<br>";
+                // echo "Pawn can not be moved: not enough space in home<br>";
                 return false;
             }
             // if that place in home free
@@ -187,6 +187,27 @@ class BoardManager{
         DbManager::make_no_result_querry(
             "UPDATE pawns SET out_of_board = 1, position = $out_pos
             WHERE id = $pawn_id;");
+    }
+
+    // load can be moved pawn status
+
+    static function load_move_status_for_pawns($game_id){
+        // get active player pawns
+        $points = get_game($game_id)['last_throw_points'];
+        $player = get_game_active_player($game_id);
+        $pawns = get_player_pawns($player['id']);
+        // foreach pawn set move status
+        $board_manager = new self(null);
+        foreach($pawns as $pawn){
+            // check if can be moved
+            $board_manager->pawn = $pawn;
+            $can_be_moved = $board_manager->check_pawn_can_be_moved($points);
+            // set result to base
+            $pawn_id = $pawn['id'];
+            DbManager::make_no_result_querry(
+                "UPDATE pawns SET can_be_moved = $can_be_moved WHERE id = $pawn_id"
+            );
+        }
     }
 
     // utils
