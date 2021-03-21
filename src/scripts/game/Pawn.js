@@ -1,4 +1,4 @@
-import { PAWN_SIZE, COLORS, BOARD_MARGIN } from "../constants.js";
+import { PAWN_SIZE, BOARD_MARGIN, PREETY_COLORS } from "../constants.js";
 import PAWNS_POSITIONS from "../pawnPositions.js";
 
 
@@ -31,7 +31,7 @@ export default class Pawn{
         ctx.arc(x, y, PAWN_SIZE, 0, 2*Math.PI);
         ctx.strokeStyle = "#000";
         ctx.stroke();
-        ctx.fillStyle = COLORS[this.color_idx];
+        ctx.fillStyle = PREETY_COLORS[this.color_idx];
         ctx.fill();
 
         this.makeButton();

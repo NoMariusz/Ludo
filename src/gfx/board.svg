@@ -1,28 +1,28 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="386" height="386">
 	<defs>
-		<circle r="12.4" stroke="#000" stroke-width="1.5" id="circle"/>
+		<circle r="12.4" stroke="#272727" stroke-width="1.5" id="circle"/>
 		
 		<marker id="marker-w" refX="14" refY="14" markerWidth="28" markerHeight="28" markerUnits="userSpaceOnUse">
-			<use fill="#fff" x="14" y="14" xlink:href="#circle"/>
+			<use fill="#dfdfdf" x="14" y="14" xlink:href="#circle"/>
 		</marker>
 		<marker id="marker-r" refX="14" refY="14" markerWidth="28" markerHeight="28" markerUnits="userSpaceOnUse">
-			<use fill="#f00" x="14" y="14" xlink:href="#circle"/>
+			<use fill="#ac1a00" x="14" y="14" xlink:href="#circle"/>
 		</marker>
 		<marker id="marker-g" refX="14" refY="14" markerWidth="28" markerHeight="28" markerUnits="userSpaceOnUse">
-			<use fill="#008000" x="14" y="14" xlink:href="#circle"/>
+			<use fill="#00a344" x="14" y="14" xlink:href="#circle"/>
 		</marker>
 		<marker id="marker-b" refX="14" refY="14" markerWidth="28" markerHeight="28" markerUnits="userSpaceOnUse">
-			<use fill="#00f" x="14" y="14" xlink:href="#circle"/>
+			<use fill="#004992" x="14" y="14" xlink:href="#circle"/>
 		</marker>
 		<marker id="marker-y" refX="14" refY="14" markerWidth="28" markerHeight="28" markerUnits="userSpaceOnUse">
-			<use fill="#ff0" x="14" y="14" xlink:href="#circle"/>
+			<use fill="#aeb100" x="14" y="14" xlink:href="#circle"/>
 		</marker>
 		
-		<path id="arrow" d="M0 0 h30 l-5 -5 l20 5 l-20 5 l5 -5 z" fill="#000" stroke="#000" stroke-width="1.3" stroke-miterlimit="8"/>
+		<path id="arrow" d="M0 0 h30 l-5 -5 l20 5 l-20 5 l5 -5 z" fill="#272727" stroke="#272727" stroke-width="1.3" stroke-miterlimit="8"/>
 	</defs>
 	
-	<rect x="1" y="1" width="384" height="384" fill="#C97A30" stroke="#000" stroke-width="2"/>
+	<rect x="1" y="1" width="384" height="384" fill="#686868" stroke="#272727" stroke-width="2"/>
 	<path d="M25 159.4
 	h 33.6 h 33.6 h 33.6 h 33.6
 	v-33.6 v-33.6 v-33.6 v-33.6
@@ -35,7 +35,7 @@
 	h-33.6 h-33.6
 	v-33.6 v-33.6 v-33.6 v-33.6
 	h-33.6 h-33.6 h-33.6 h-33.6
-	v-33.6 z" fill="none" stroke="#000" stroke-width="2" marker-mid="url(#marker-w)" marker-end="url(#marker-w)"/>
+	v-33.6 z" fill="none" stroke="#272727" stroke-width="2" marker-mid="url(#marker-w)" marker-end="url(#marker-w)"/>
 
 	<use x="25" y="159.4" fill="#ffa07a" xlink:href="#circle"/>
 	<use x="361" y="226.6" fill="#90ee90" xlink:href="#circle"/>

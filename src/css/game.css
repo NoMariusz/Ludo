@@ -61,19 +61,19 @@
 }
 
 .blue{
-    background-color: rgb(0, 73, 146);
+    background-color: #004992;
 }
 
 .red{
-    background-color: rgb(172, 26, 0);
+    background-color: #ac1a00;
 }
 
 .yellow{
-    background-color: rgb(174, 177, 0);
+    background-color: #aeb100;
 }
 
 .green{
-    background-color: rgb(0, 163, 68);
+    background-color: #00a344;
 }
 
 /* throwing cube */
