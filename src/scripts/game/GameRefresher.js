@@ -51,6 +51,8 @@ export default class GameRefresher {
         this.loadBoard(data);
         // load cube
         this.loadCube(data);
+        // load throwButton displaying
+        this.loadThrowButton(data);
     };
 
     // loading players block
@@ -207,7 +209,7 @@ export default class GameRefresher {
         });
     };
 
-    // diplaying cub and points
+    // diplaying cube and points
 
     loadCube = async (data) => {
         const points = data.game.last_throw_points;
@@ -219,12 +221,15 @@ export default class GameRefresher {
 
     loadDiceImage = async (ctx, points, show) => {
         return new Promise((resolv, reject) => {
+            // clear old dice
             const xy = (BOARD_MARGIN - DICE_SIZE)/2
             ctx.clearRect(xy, xy, DICE_SIZE, DICE_SIZE);
+            // end work if should not show
             if (!show){
                 resolv(true);
                 return false;
             }
+            // draw dice image
             const img = new Image();
             img.onload = () => {
                 ctx.drawImage(img, xy, xy, DICE_SIZE, DICE_SIZE);
@@ -233,4 +238,32 @@ export default class GameRefresher {
             img.src = `./src/gfx/cubes/${points}.jpg`;
         })
     };
+
+    // change visibility of throwCube button
+
+    loadThrowButton = (data) => {
+        const throwCube = document.getElementById('throwCube');
+        if (this.shouldThrowBtnDisplayed(data)){
+            throwCube.classList.remove('hidden');
+        } else {
+            throwCube.classList.add('hidden');
+        }
+    }
+
+    shouldThrowBtnDisplayed = (data) => {
+        if (data.game.throwed_cube == 1){
+            return false;
+        }
+        const mainPlayer = this.getPlayerById(data, data.player_id)
+        if (mainPlayer.status != 3){
+            return false;
+        }
+        return true;
+    }
+
+    // utils
+
+    getPlayerById = (data, playerId) => {
+        return data.players.find(e => e.id == playerId);
+    }
 }

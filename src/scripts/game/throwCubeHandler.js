@@ -1,13 +1,15 @@
 import GameRefresher from "./GameRefresher.js";
 
 
-const throwCube = async () => {
+const throwCube = async (e) => {
     const res = await fetch("api/public/throwCube.php");
     if(!res.ok){
         alert("Can not throw cube now!");
         return false;
     } else {
         console.info("throwed cube");
+        // hide btn after throw cube
+        e.target.classList.add("hidden");
     }
     // to display cube just after throw
     const data = await res.json()

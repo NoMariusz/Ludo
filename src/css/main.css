@@ -54,3 +54,7 @@ input{
 .rounded{
     border-radius: 2rem;
 }
+
+.hidden{
+    display: none;
+}
