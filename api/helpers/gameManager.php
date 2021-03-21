@@ -85,7 +85,7 @@ class GameManager{
         // to start game must be full of players
         if (count($match_players) >= 4){
             // to prepare players becouse they not prepared
-            prepare_players_for_main_game($this->game_id);
+            PlayerManager::prepare_players_for_main_game($this->game_id);
             $this->start_game();
             return true;
         }

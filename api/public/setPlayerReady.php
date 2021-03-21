@@ -16,10 +16,11 @@ function main(){
         http_response_code(404);
         return false;
     }
+    $player_manager = new PlayerManager($player_id);
     // set new status in base
-    set_player_ready_status();
+    $player_manager->set_player_ready_status();
     // prepare
-    prepare_player_for_main_game($player_id);
+    $player_manager->prepare_player_for_main_game();
     // set game started if all players ready or is 4 players
     $game_id = $_SESSION['game_id'];
     $gameManager = new GameManager($game_id);

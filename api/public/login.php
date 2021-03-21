@@ -3,11 +3,11 @@ include("../includes.php");
 
 function main(){
     $response = array('result' => true);
-
-    if (!isset($_SESSION)){
+    $nick = $_GET['nick'];
+    if (!isset($_SESSION) && $nick != null){
         try {
             // made player
-            $player_id = create_player($_GET['nick']);
+            $player_id = PlayerManager::create_player($nick);
             $_SESSION['player_id'] = $player_id;
             // add player to game
             $game_id = GameManager::add_player_to_game($player_id);

@@ -51,7 +51,8 @@ function update_turns_by_player_moves($game){
         return false;
     }
     // check if player have move
-    if (check_if_player_have_moves($player, $points)){
+    $player_manager = new PlayerManager($player['id']);
+    if ($player_manager->check_if_player_have_moves($points)){
         echo "player have moves <br>";
     } else {
         // if player have not any move
