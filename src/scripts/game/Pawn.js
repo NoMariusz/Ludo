@@ -13,15 +13,20 @@ export default class Pawn {
         this.loadPosition(data);
         this.id = data.id;
 
+        this.button = null;
+
         this.ownerId = ownerId;
         this.canBeMoved = this.checkCanMovePawn(data);
         this.canMoveColor = MAIN_COLOR;
-        this.live = true
+        this.live = true;
+        // store optional instance of pawn what is hint where pawn be after move
+        this.moveHint = null;
     }
 
     updatePawn(data) {
         this.loadPosition(data);
         this.canBeMoved = this.checkCanMovePawn(data);
+        this.reMakeButton();
     }
 
     loadPosition(data) {
@@ -38,7 +43,10 @@ export default class Pawn {
 
     render(ctx) {
         this.drawPawn(ctx);
-        this.makeButton();
+        this.drawPawnHint(ctx);
+        if (this.button == null){
+            this.makeButton();
+        }
     }
 
     drawPawn(ctx) {
@@ -57,20 +65,39 @@ export default class Pawn {
         ctx.fill();
     }
 
+    drawPawnHint(ctx){
+        // draw pawn move int if can
+        if (this.moveHint!= null){
+            this.moveHint.drawPawn(ctx);
+        }
+    }
+
     // button stuff
 
     makeButton() {
         const block = document.querySelector("#gameBlock");
-        let btn = document.createElement("button");
-        btn.classList.add("pawnButton");
+        this.button = document.createElement("button");
+        this.button.classList.add("pawnButton");
         const x = BOARD_MARGIN + this.position[0] - PAWN_SIZE;
         const y = this.position[1] - PAWN_SIZE;
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
-        block.appendChild(btn);
-        btn.onclick = () => {
+        this.button.style.left = x + "px";
+        this.button.style.top = y + "px";
+        block.appendChild(this.button);
+        // add event handlers
+        this.button.onclick = () => {
             this.handlePawnClick();
         };
+        this.button.onmouseenter = () => {
+            this.pawnMouseEnter();
+        };
+        this.button.onmouseleave = () => {
+            this.pawnMouseLeave();
+        };
+    }
+
+    reMakeButton = () => {
+        this.button.remove();
+        this.makeButton();
     }
 
     async handlePawnClick() {
@@ -84,6 +111,14 @@ export default class Pawn {
         }
     }
 
+    pawnMouseEnter() {
+        this.madePawnHint();
+    }
+
+    pawnMouseLeave() {
+        this.moveHint = null;
+    }
+
     // pawn move/can move hints
 
     checkCanMovePawn = (data) => {
@@ -95,4 +130,26 @@ export default class Pawn {
         }
         return true;
     };
+
+    madePawnHint = async () => {
+        // if is hint then not load twice
+        if(this.moveHint != null){
+            return false;
+        }
+        // if not can be moved, hint is not necessary
+        if(!this.canBeMoved){
+            return false;
+        }
+        // made hint by data from server
+        const res = await fetch(`api/public/pawnAfterMove.php?pawn_id=${this.id}`);
+        if (!res.ok){
+            return false;
+        }
+        const data = await res.json();
+        this.moveHint = new Pawn(data, this.ownerId);
+        // force draw hint
+        const canvas = document.querySelector("#gameCanvas");
+        const ctx = canvas.getContext("2d");
+        this.drawPawnHint(ctx);
+    }
 }

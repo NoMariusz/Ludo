@@ -69,13 +69,17 @@ class BoardManager{
     }
 
     function move_pawn($points){
+        $this->move_pawn_obj($points);
+        $this->save_pawn_changes();
+        $this->make_beating();
+    }
+
+    function move_pawn_obj($points){
         if($this->pawn['out_of_board'] == 1){
             $this->move_pawn_to_board();
         } else {
             $this->normal_move_pawn_obj($points);
         }
-        $this->save_pawn_changes();
-        $this->make_beating();
     }
 
     private function normal_move_pawn_obj($points){
