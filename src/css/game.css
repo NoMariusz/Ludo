@@ -110,6 +110,10 @@
     height: 20px;
 }
 
+.activeBtn{
+    cursor: pointer;
+}
+
 #gameBlock{
     position: relative;
 }

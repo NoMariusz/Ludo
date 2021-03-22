@@ -44,9 +44,6 @@ export default class Pawn {
     render(ctx) {
         this.drawPawn(ctx);
         this.drawPawnHint(ctx);
-        if (this.button == null){
-            this.makeButton();
-        }
     }
 
     drawPawn(ctx) {
@@ -67,22 +64,25 @@ export default class Pawn {
 
     drawPawnHint(ctx){
         // draw pawn move int if can
-        if (this.moveHint!= null){
-            this.moveHint.drawPawn(ctx);
-        }
+        this.moveHint?.drawPawn(ctx);
     }
 
     // button stuff
 
     makeButton() {
+        // make button
         const block = document.querySelector("#gameBlock");
         this.button = document.createElement("button");
+        block.appendChild(this.button);
+        // style button
         this.button.classList.add("pawnButton");
         const x = BOARD_MARGIN + this.position[0] - PAWN_SIZE;
         const y = this.position[1] - PAWN_SIZE;
         this.button.style.left = x + "px";
         this.button.style.top = y + "px";
-        block.appendChild(this.button);
+        if (this.canBeMoved){
+            this.button.classList.add("activeBtn");
+        }
         // add event handlers
         this.button.onclick = () => {
             this.handlePawnClick();
@@ -96,7 +96,7 @@ export default class Pawn {
     }
 
     reMakeButton = () => {
-        this.button.remove();
+        this.button?.remove();
         this.makeButton();
     }
 
