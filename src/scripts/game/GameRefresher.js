@@ -124,7 +124,7 @@ export default class GameRefresher {
         const milisecondsLeft =
             Date.now() - Date.parse(data.game.turn_start_time);
         const secondsLeft = Math.round(milisecondsLeft / 1000);
-        noticer.innerText = TURN_TIME - secondsLeft;
+        noticer.innerText = Math.max(TURN_TIME - secondsLeft, 0);
     };
 
     makeNoticer = () => {
