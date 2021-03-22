@@ -17,3 +17,4 @@ export const PAWN_SIZE = 10;
 export const PAWNS_COUNT = 40;
 export const DICE_SIZE = 100;
 
+export const DEFAULT_SPEAK_LANGUAGE = "es-ES";
