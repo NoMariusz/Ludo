@@ -68,5 +68,12 @@ class TurnManager
                 $player_manager->give_player_place();
             }
         }
+        // if remain only one playing player then give him place
+        if (count($players) == 1){
+            $player_manager = new PlayerManager($players[0]['id']);
+            $player_manager->give_player_place();
+        }
     }
+
+
 }
