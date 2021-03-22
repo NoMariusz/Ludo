@@ -37,6 +37,15 @@ class BoardManager{
         return $data[0];
     }
 
+    static function are_every_pawns_at_home($pawns){
+        foreach($pawns as $pawn){
+            if ($pawn['in_home'] != 1){
+                return false;
+            }
+        }
+        return true;
+    }
+
     // moves
 
     function check_pawn_can_be_moved($points){

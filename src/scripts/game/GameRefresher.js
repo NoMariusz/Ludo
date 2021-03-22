@@ -73,11 +73,14 @@ export default class GameRefresher {
     };
 
     loadDataToPin = (pin, playerData, mainPlaierId) => {
-        // add p tag
+        // MADE p tag
         pin.innerHTML = "";
         const p = document.createElement("p");
-        p.innerText = playerData.nick;
         pin.appendChild(p);
+        // add information about taken place
+        let placeString = playerData['place'] == null ? "" : `${playerData['place']}.`;
+        // set text
+        p.innerText = placeString + playerData.nick;
         // add color
         pin.classList.remove("gray");
         pin.classList.add(COLORS[playerData.color_index]);
@@ -110,7 +113,7 @@ export default class GameRefresher {
 
     loadTimeNoticer = (data) => {
         // prepare data
-        const playerWithTurnIdx = data.players.findIndex((p) => p.status > 2);
+        const playerWithTurnIdx = data.players.findIndex((p) => p.status > 2 && p.status != 5);
         // if nobody have turn not render noticer
         if (playerWithTurnIdx == -1) {
             return false;

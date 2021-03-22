@@ -36,6 +36,12 @@ function get_game_active_player($game_id){
     )[0];
 }
 
+function get_game_playing_players($game_id){
+    return DbManager::make_querry(
+        "SELECT * FROM players WHERE game_id = $game_id AND status > 1 AND status != 5"
+    );
+}
+
 function get_player_pawns($player_id){
     return DbManager::make_querry(
         "SELECT * FROM pawns WHERE player_id = $player_id");

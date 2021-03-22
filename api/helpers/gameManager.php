@@ -23,9 +23,11 @@ class GameManager{
     }
 
     static function set_player_active($player_id, $game_id){
-        // set status to not active players
+        // set waiting status to not active players
         DbManager::make_no_result_querry(
-            "UPDATE players SET status = 2 WHERE game_id = $game_id");
+            "UPDATE players SET status = 2 WHERE game_id = $game_id
+            AND status != 5"
+        );
         // set active player status
         DbManager::make_no_result_querry(
             "UPDATE players SET status = 3 WHERE id = $player_id");
