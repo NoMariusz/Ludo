@@ -77,10 +77,8 @@ export default class GameRefresher {
         pin.innerHTML = "";
         const p = document.createElement("p");
         pin.appendChild(p);
-        // add information about taken place
-        let placeString = playerData['place'] == null ? "" : `${playerData['place']}.`;
         // set text
-        p.innerText = placeString + playerData.nick;
+        p.innerText = playerData.nick;
         // add color
         pin.classList.remove("gray");
         pin.classList.add(COLORS[playerData.color_index]);
@@ -88,7 +86,19 @@ export default class GameRefresher {
         if (playerData.id == mainPlaierId) {
             pin.classList.add("mainPlayerPin");
         }
+        this.loadPlaceNoticer(pin, playerData);
     };
+
+    loadPlaceNoticer = (pin, playerData) => {
+        // if player not have place then not do anything
+        if (playerData['place'] == null){
+            return false;
+        }
+        const noticer = this.makeNoticer("placeNoticer");
+        pin.appendChild(noticer);
+        // add information about taken place
+        noticer.innerText = playerData['place']
+    }
 
     // loading ready slider
 
@@ -121,7 +131,7 @@ export default class GameRefresher {
         const playersPin = document.querySelectorAll(".playerPin");
         const pin = playersPin[playerWithTurnIdx];
         // make noticer
-        const noticer = this.makeNoticer();
+        const noticer = this.makeNoticer("timeNoticer");
         // add to html and set content
         pin.appendChild(noticer);
         const milisecondsLeft =
@@ -130,10 +140,10 @@ export default class GameRefresher {
         noticer.innerText = Math.max(TURN_TIME - secondsLeft, 0);
     };
 
-    makeNoticer = () => {
+    makeNoticer = (type) => {
         const noticer = document.createElement("div");
         noticer.classList.add("baseNoticer");
-        noticer.classList.add("timeNoticer");
+        noticer.classList.add(type);
         return noticer;
     };
 

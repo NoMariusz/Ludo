@@ -40,8 +40,6 @@
 
 .baseNoticer{
     position:relative;
-    margin-bottom: -20%;
-    left: 50%;
     border-radius: 1rem;
     font-size: 0.75rem;
     border: 0.1rem solid;
@@ -52,6 +50,16 @@
     background-color: var(--near-black);
     border-color: var(--main);
     color: var(--main);
+    margin-bottom: -20%;
+    left: 50%;
+}
+
+.placeNoticer{
+    background-color: var(--main);
+    border-color: var(--near-black);
+    color: var(--near-black);
+    margin-bottom: -20%;
+    right: 50%;
 }
 
 /* pin colors */
