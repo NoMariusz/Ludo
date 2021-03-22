@@ -22,9 +22,13 @@ class TurnManager
         DbManager::make_no_result_querry(
             "UPDATE pawns SET can_be_moved = 0 WHERE game_id = $this->game_id"
         );
+        // end atch if all players have place
+        $this->try_end_game();
         // give player place if end game
-        $this -> made_giving_places();
+        $this->made_giving_places();
     }
+
+    // actions made at turn change
 
     private function change_active_player()
     {
@@ -37,7 +41,7 @@ class TurnManager
             AND status > 2 AND status != 5;"
         );
         // if not is active player in match end work
-        if(count($active_players) == 0){
+        if (count($active_players) == 0) {
             return false;
         }
         // find what index have active player
@@ -56,24 +60,41 @@ class TurnManager
     private function made_giving_places()
     {
         // get all players from match without place
-        $players = DbManager::make_querry(
-            "SELECT * FROM players WHERE game_id = $this->game_id
-            AND place IS NULL"
-        );
+        $players = $this->get_players_without_places();
         // for each player if his pawns at home then give them place
-        foreach($players as $player){
+        foreach ($players as $player) {
             $pawns = get_player_pawns($player['id']);
-            if (BoardManager::are_every_pawns_at_home($pawns)){
+            if (BoardManager::are_every_pawns_at_home($pawns)) {
                 $player_manager = new PlayerManager($player['id']);
                 $player_manager->give_player_place();
             }
         }
         // if remain only one playing player then give him place
-        if (count($players) == 1){
+        if (count($players) == 1) {
             $player_manager = new PlayerManager($players[0]['id']);
             $player_manager->give_player_place();
         }
     }
 
+    private function try_end_game()
+    {
+        // get all players from match without place
+        $players = $this->get_players_without_places();
+        // if all players have place set other status to game
+        if (count($players) == 0) {
+            DbManager::make_no_result_querry(
+                "UPDATE games SET status = 2 WHERE id = $this->game_id"
+            );
+        }
+    }
 
+    // utils
+
+    private function get_players_without_places()
+    {
+        return DbManager::make_querry(
+            "SELECT * FROM players WHERE game_id = $this->game_id
+            AND place IS NULL"
+        );
+    }
 }

@@ -109,7 +109,7 @@ class PlayerManager
             "SELECT MAX(place) from players WHERE game_id = $game_id");
         $last_took_place = $last_took_place_result[0]["MAX(place)"];
         $place = $last_took_place == null ? 1 : $last_took_place + 1;
-        DbManager::make_querry(
+        DbManager::make_no_result_querry(
             "UPDATE players SET place = $place, status = 5
             WHERE id = $this->player_id"
         );

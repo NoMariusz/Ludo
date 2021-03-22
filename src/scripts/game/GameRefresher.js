@@ -18,9 +18,9 @@ export default class GameRefresher {
         // get data from backend
         const data = await this.getDataFromServer();
         console.log("Data from server: ", data);
-        // if data null then make proper actions
-        if (data == null) {
-            // redirect to game
+        // if data null or game ended make proper actions
+        if (! this.checkIfDataGood(data)) {
+            // redirect to login
             window.location.href = window.location.href.slice(0, -8);
             return false;
         }
@@ -241,4 +241,8 @@ export default class GameRefresher {
     getPlayerById = (data, playerId) => {
         return data.players.find((e) => e.id == playerId);
     };
+
+    checkIfDataGood = (data) => {
+        return data != null && data.game.length != 0 && data.game.status != 2
+    }
 }

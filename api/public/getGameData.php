@@ -15,7 +15,7 @@ function main(){
     $pawns = DbManager::make_querry("SELECT * FROM pawns WHERE game_id = $game_id");
     // return informations
     echo json_encode(array(
-        'game' => $game_data[0],
+        'game' => count($game_data) == 0 ? array() : $game_data[0],
         'players' => $players_data,
         'player_id' => $_SESSION['player_id'],
         'pawns' => $pawns

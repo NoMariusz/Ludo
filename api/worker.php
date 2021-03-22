@@ -3,7 +3,7 @@
 /* worker making jobs in interval that should be made as background */
 include("./includes.php");
 
-ini_set('max_execution_time', '5'); 
+ini_set('max_execution_time', '3600'); 
 
 function main(){
     while(true){
