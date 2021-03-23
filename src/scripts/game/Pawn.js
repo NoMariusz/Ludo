@@ -21,15 +21,22 @@ export default class Pawn {
         this.live = true;
         // store optional instance of pawn what is hint where pawn be after move
         this.moveHint = null;
+        // to check if pawn is hovering
+        this.hovering = false;
     }
 
     updatePawn(data) {
-        this.loadPosition(data);
+        let changedPos = this.loadPosition(data);
+        let startCanBeMoved = this.canBeMoved;
         this.canBeMoved = this.checkCanMovePawn(data);
-        this.reMakeButton();
+        // if pawn data changed remade button
+        if (changedPos || startCanBeMoved != this.canBeMoved){
+            this.reMakeButton();
+        }
     }
 
     loadPosition(data) {
+        const startPosition = [...this.position];
         if (data.in_home == 1) {
             this.position =
                 PAWNS_POSITIONS.inHome[this.color_idx][data.position];
@@ -39,6 +46,8 @@ export default class Pawn {
         } else {
             this.position = PAWNS_POSITIONS.normal[data.position];
         }
+        // return if position change
+        return startPosition[0] == this.position[0] && startPosition[1] == this.position[1]
     }
 
     render(ctx) {
@@ -113,10 +122,12 @@ export default class Pawn {
 
     pawnMouseEnter() {
         this.madePawnHint();
+        this.hovering = true;
     }
 
     pawnMouseLeave() {
         this.moveHint = null;
+        this.hovering = false;
     }
 
     // pawn move/can move hints
@@ -146,6 +157,10 @@ export default class Pawn {
             return false;
         }
         const data = await res.json();
+        // if hover end while getting data, not make hint
+        if (!this.hovering){
+            return false;
+        }
         this.moveHint = new Pawn(data, this.ownerId);
         // force draw hint
         const canvas = document.querySelector("#gameCanvas");
