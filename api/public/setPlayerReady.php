@@ -25,6 +25,8 @@ function main(){
     $game_id = $_SESSION['game_id'];
     $gameManager = new GameManager($game_id);
     $gameManager->start_game_if_can();
+
+    set_public_action_made();
 }
 
 main();

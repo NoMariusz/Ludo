@@ -3,10 +3,23 @@
 function is_player_logged(){
     // notice to call only after session_start()
     if(! isset($_SESSION['player_id'])){
-        http_response_code(404);
+        http_response_code(400);
+        return false;
+    }
+    // if player not exists then return error
+    $player = get_player($_SESSION['player_id']);
+    if ($player === false){
+        http_response_code(400);
         return false;
     }
     return true;
+}
+
+function set_public_action_made(){
+    $game_id = $_SESSION['game_id'];
+    if (isset($game_id)){
+        GameManager::mark_game_action($game_id);
+    }
 }
 
 function get_game($id){
@@ -16,8 +29,11 @@ function get_game($id){
 }
 
 function get_player($id){
-    $e = DbManager:: make_querry("SELECT * FROM players WHERE id = $id;")[0];
-    return $e;
+    $e = DbManager:: make_querry("SELECT * FROM players WHERE id = $id;");
+    if(count($e) == 0){
+        return false;
+    }
+    return $e[0];
 }
 
 function get_pawn($id){

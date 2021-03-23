@@ -7,10 +7,13 @@ ini_set('max_execution_time', '3600');
 
 function main(){
     while(true){
+        clear_unactive_games();
         update_turns();
         sleep(2);
     }
 }
+
+// updating turns in matches
 
 function update_turns(){
     // get running games
@@ -56,6 +59,27 @@ function update_turns_by_player_moves($game){
         // if player have not any move
         $turnManager = new TurnManager($game_id);
         $turnManager->change_turn();
+    }
+}
+
+// clearing unactive games
+
+function clear_unactive_games(){
+    global $CLEAR_UNACTIVE_GAME_TIME;
+    // get max timestamp of games to clear
+    $timetimestamp_to_clear = time() - $CLEAR_UNACTIVE_GAME_TIME;
+    // add hour to time so work on GMP+1 time zone
+    $timetimestamp_to_clear += 3600;
+    // get date to delete games having last activity before that date
+    $activity_time_to_clear = new DateTime('@' . $timetimestamp_to_clear);
+    $activity_time_to_clear = $activity_time_to_clear->format("Y-m-d H:i:s");
+    // get games to clear and clear them
+    $games_to_clear = DbManager::make_querry(
+        "SELECT * FROM games WHERE
+        last_activity_time < '$activity_time_to_clear';"
+    );
+    foreach($games_to_clear as $game){
+        GameManager::delete_game($game['id']);
     }
 }
 

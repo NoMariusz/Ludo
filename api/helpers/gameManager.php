@@ -55,6 +55,25 @@ class GameManager{
         return $free_game_id;
     }
 
+    static function delete_game($game_id){
+        // delete pawns
+        DbManager::make_no_result_querry(
+            "DELETE FROM pawns WHERE game_id = $game_id");
+        // delete players
+        DbManager::make_no_result_querry(
+            "DELETE FROM players WHERE game_id = $game_id");
+        // delete game
+        DbManager::make_no_result_querry(
+            "DELETE FROM games WHERE id = $game_id");
+    }
+
+    static function mark_game_action($game_id){
+        DbManager::make_no_result_querry(
+            "UPDATE games SET last_activity_time = CURRENT_TIMESTAMP()
+            WHERE id = $game_id"
+        );
+    }
+
     // starting game
 
     function start_game(){

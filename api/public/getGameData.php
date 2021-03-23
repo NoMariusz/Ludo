@@ -20,6 +20,9 @@ function main(){
         'player_id' => $_SESSION['player_id'],
         'pawns' => $pawns
     ));
+
+    set_public_action_made();
+    
 }
 
 main();

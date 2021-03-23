@@ -30,6 +30,8 @@ function main(){
     // change if pawns can be moved in game
     BoardManager::load_move_status_for_pawns($game_id);
 
+    set_public_action_made();
+
     echo json_encode(["points" => $points]);
     return true;
 }

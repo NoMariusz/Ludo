@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 22 Mar 2021, 17:50
+-- Czas generowania: 23 Mar 2021, 11:39
 -- Wersja serwera: 10.4.17-MariaDB
 -- Wersja PHP: 8.0.1
 
@@ -33,7 +33,8 @@ CREATE TABLE `games` (
   `free_spaces` int(11) NOT NULL DEFAULT 4,
   `turn_start_time` timestamp NOT NULL DEFAULT current_timestamp(),
   `throwed_cube` tinyint(1) NOT NULL DEFAULT 0,
-  `last_throw_points` int(11) NOT NULL DEFAULT 0
+  `last_throw_points` int(11) NOT NULL DEFAULT 0,
+  `last_activity_time` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;
 
 -- --------------------------------------------------------
@@ -102,19 +103,19 @@ ALTER TABLE `players`
 -- AUTO_INCREMENT dla tabeli `games`
 --
 ALTER TABLE `games`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT dla tabeli `pawns`
 --
 ALTER TABLE `pawns`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT dla tabeli `players`
 --
 ALTER TABLE `players`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Ograniczenia dla zrzutów tabel

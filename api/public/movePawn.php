@@ -39,6 +39,9 @@ function main(){
     // when player move pawn change turn
     $turnManager = new TurnManager($game_id);
     $turnManager->change_turn();
+
+    set_public_action_made();
+    
     return true;
 }
 

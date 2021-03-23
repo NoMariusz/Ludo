@@ -30,6 +30,9 @@ function main(){
     // make move at object without affection db
     $boardManager->move_pawn_obj($points);
     $pawn_after_move = $boardManager->pawn;
+
+    set_public_action_made();
+    
     echo json_encode($pawn_after_move);
     return true;
 }
