@@ -13,7 +13,7 @@ export default class GameRefresher {
         // if data null or game ended make proper actions
         if (!this.checkIfDataGood(data)) {
             // redirect to login
-            window.location.href = window.location.href.slice(0, -8);
+            window.location.href += "login.php" 
             return false;
         }
 

@@ -1,5 +1,5 @@
 <?php
-include('./src/pages/game.html');
+include('./src/pages/login.html');
 exit;
 ?>
 Something is wrong with the Web Server :-(

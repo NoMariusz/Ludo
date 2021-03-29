@@ -13,7 +13,7 @@ class GameJoiner {
         if (resData.result) {
             console.log("redirecting ...");
             // redirect to game
-            window.location.href += "game.php";
+            window.location.href = window.location.href.slice(0, -9);
         }
     };
 }
