@@ -13,7 +13,7 @@ function main(){
     $player_id = $_SESSION['player_id'];
     $player_data = DbManager::make_querry("SELECT * FROM players WHERE id = $player_id");
     if($player_data[0]['status'] != 0){
-        http_response_code(404);
+        http_response_code(403);
         return false;
     }
     $player_manager = new PlayerManager($player_id);

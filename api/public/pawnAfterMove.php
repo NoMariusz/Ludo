@@ -6,7 +6,7 @@ function main(){
     session_start();
     // check if is made session with player
     if(!is_player_logged()){
-        http_response_code(404);
+        http_response_code(403);
         return false;
     }
     // get data
@@ -16,14 +16,14 @@ function main(){
     $pawn = BoardManager::safe_get_pawn($pawn_id);
     // check if pawn is set
     if (!isset($pawn) || !$pawn){
-        http_response_code(400);
+        http_response_code(404);
         return false;
     }
     $boardManager = new BoardManager($pawn);
     // check if pawn can be moved
     $points = $game['last_throw_points'];
     if (!$boardManager->check_pawn_can_be_moved($points)){
-        http_response_code(400);
+        http_response_code(403);
         return false;
     }
 

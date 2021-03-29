@@ -3,13 +3,13 @@
 function is_player_logged(){
     // notice to call only after session_start()
     if(! isset($_SESSION['player_id'])){
-        http_response_code(400);
+        http_response_code(403);
         return false;
     }
     // if player not exists then return error
     $player = get_player($_SESSION['player_id']);
     if ($player === false){
-        http_response_code(400);
+        http_response_code(403);
         return false;
     }
     return true;

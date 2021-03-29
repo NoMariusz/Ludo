@@ -6,12 +6,12 @@ function main(){
     session_start();
     // check if is made session with player
     if(!is_player_logged()){
-        http_response_code(400);
+        http_response_code(403);
         return false;
     }
     // check if can throw cube
     if (!can_throw_cube()){
-        http_response_code(400);
+        http_response_code(403);
         return false;
     }
 
