@@ -1,32 +1,35 @@
 import { PREETY_COLORS, MAIN_COLOR, PAWN_FLASHING_TIME } from "../constants.js";
-import { sleep } from "../utils.js";
+import Utilities from "../Utitlities.js";
 
-let live = true;
-
-const startPawnBlinking = async (refresher) => {
-    /* start loop changing blink pawns color */
-    const canvas = document.querySelector("#gameCanvas");
-    const ctx = canvas.getContext("2d");
-
-    while (live) {
-        refreshBlinkingPawns(refresher, ctx, true);
-        await sleep(PAWN_FLASHING_TIME);
-        refreshBlinkingPawns(refresher, ctx, false);
-        await sleep(PAWN_FLASHING_TIME);
+export default class PawnBlinker{
+    constructor(refresher){
+        this.live = true;
+        this.refresher = refresher
     }
-};
 
-const refreshBlinkingPawns = (refresher, ctx, blinkColor) => {
-    refresher.pawns.forEach((pawn) => {
-        // change canMoveColor to blink
-        pawn.canMoveColor = blinkColor
-            ? MAIN_COLOR
-            : PREETY_COLORS[pawn.color_idx];
-        // draw if can move that pawn
-        if (pawn.canBeMoved) {
-            pawn.drawPawn(ctx);
+    init = async () => {
+        /* start loop changing blink pawns color */
+        const canvas = document.querySelector("#gameCanvas");
+        const ctx = canvas.getContext("2d");
+    
+        while (this.live) {
+            this.refreshBlinkingPawns(ctx, true);
+            await Utilities.sleep(PAWN_FLASHING_TIME);
+            this.refreshBlinkingPawns(ctx, false);
+            await Utilities.sleep(PAWN_FLASHING_TIME);
         }
-    });
-};
-
-export default startPawnBlinking;
+    };
+    
+   refreshBlinkingPawns = (ctx, blinkColor) => {
+        this.refresher.pawns.forEach((pawn) => {
+            // change canMoveColor to blink
+            pawn.canMoveColor = blinkColor
+                ? MAIN_COLOR
+                : PREETY_COLORS[pawn.color_idx];
+            // draw if can move that pawn
+            if (pawn.canBeMoved) {
+                pawn.drawPawn(ctx);
+            }
+        });
+    };
+}
