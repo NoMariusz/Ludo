@@ -1,10 +1,4 @@
-import {
-    PAWN_SIZE,
-    BOARD_MARGIN,
-    PREETY_COLORS,
-    MAIN_COLOR,
-} from "../constants.js";
-import PAWNS_POSITIONS from "../pawnPositions.js";
+import Constants from "../Constants.js";
 
 export default class Pawn {
     constructor(data, ownerId) {
@@ -17,7 +11,7 @@ export default class Pawn {
 
         this.ownerId = ownerId;
         this.canBeMoved = this.checkCanMovePawn(data);
-        this.canMoveColor = MAIN_COLOR;
+        this.canMoveColor = Constants.MAIN_COLOR;
         this.live = true;
         // store optional instance of pawn what is hint where pawn be after move
         this.moveHint = null;
@@ -30,7 +24,7 @@ export default class Pawn {
         let startCanBeMoved = this.canBeMoved;
         this.canBeMoved = this.checkCanMovePawn(data);
         // if pawn data changed remade button
-        if (changedPos || startCanBeMoved != this.canBeMoved){
+        if (changedPos || startCanBeMoved != this.canBeMoved) {
             this.reMakeButton();
         }
     }
@@ -39,15 +33,18 @@ export default class Pawn {
         const startPosition = [...this.position];
         if (data.in_home == 1) {
             this.position =
-                PAWNS_POSITIONS.inHome[this.color_idx][data.position];
+                Constants.PAWNS_POSITIONS.inHome[this.color_idx][data.position];
         } else if (data.out_of_board == 1) {
             this.position =
-                PAWNS_POSITIONS.outOfBoard[this.color_idx][data.position];
+                Constants.PAWNS_POSITIONS.outOfBoard[this.color_idx][data.position];
         } else {
-            this.position = PAWNS_POSITIONS.normal[data.position];
+            this.position = Constants.PAWNS_POSITIONS.normal[data.position];
         }
         // return if position change
-        return startPosition[0] == this.position[0] && startPosition[1] == this.position[1]
+        return (
+            startPosition[0] == this.position[0] &&
+            startPosition[1] == this.position[1]
+        );
     }
 
     render(ctx) {
@@ -60,18 +57,18 @@ export default class Pawn {
         if (this.position == undefined) {
             return false;
         }
-        const x = BOARD_MARGIN + this.position[0];
+        const x = Constants.BOARD_MARGIN + this.position[0];
         const y = this.position[1];
-        ctx.arc(x, y, PAWN_SIZE, 0, 2 * Math.PI);
+        ctx.arc(x, y, Constants.PAWN_SIZE, 0, 2 * Math.PI);
         ctx.strokeStyle = "#000";
         ctx.stroke();
         ctx.fillStyle = this.canBeMoved
             ? this.canMoveColor
-            : PREETY_COLORS[this.color_idx];
+            : Constants.PREETY_COLORS[this.color_idx];
         ctx.fill();
     }
 
-    drawPawnHint(ctx){
+    drawPawnHint(ctx) {
         // draw pawn move int if can
         this.moveHint?.drawPawn(ctx);
     }
@@ -85,11 +82,12 @@ export default class Pawn {
         block.appendChild(this.button);
         // style button
         this.button.classList.add("pawnButton");
-        const x = BOARD_MARGIN + this.position[0] - PAWN_SIZE;
-        const y = this.position[1] - PAWN_SIZE;
+        const x =
+            Constants.BOARD_MARGIN + this.position[0] - Constants.PAWN_SIZE;
+        const y = this.position[1] - Constants.PAWN_SIZE;
         this.button.style.left = x + "px";
         this.button.style.top = y + "px";
-        if (this.canBeMoved){
+        if (this.canBeMoved) {
             this.button.classList.add("activeBtn");
         }
         // add event handlers
@@ -107,7 +105,7 @@ export default class Pawn {
     reMakeButton = () => {
         this.button?.remove();
         this.makeButton();
-    }
+    };
 
     async handlePawnClick() {
         let path = `api/public/movePawn.php?pawn_id=${this.id}`;
@@ -144,21 +142,23 @@ export default class Pawn {
 
     madePawnHint = async () => {
         // if is hint then not load twice
-        if(this.moveHint != null){
+        if (this.moveHint != null) {
             return false;
         }
         // if not can be moved, hint is not necessary
-        if(!this.canBeMoved){
+        if (!this.canBeMoved) {
             return false;
         }
         // made hint by data from server
-        const res = await fetch(`api/public/pawnAfterMove.php?pawn_id=${this.id}`);
-        if (!res.ok){
+        const res = await fetch(
+            `api/public/pawnAfterMove.php?pawn_id=${this.id}`
+        );
+        if (!res.ok) {
             return false;
         }
         const data = await res.json();
         // if hover end while getting data, not make hint
-        if (!this.hovering){
+        if (!this.hovering) {
             return false;
         }
         this.moveHint = new Pawn(data, this.ownerId);
@@ -166,5 +166,5 @@ export default class Pawn {
         const canvas = document.querySelector("#gameCanvas");
         const ctx = canvas.getContext("2d");
         this.drawPawnHint(ctx);
-    }
+    };
 }

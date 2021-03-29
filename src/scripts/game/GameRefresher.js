@@ -1,12 +1,4 @@
-import {
-    READY_TEXT,
-    WAITING_TEXT,
-    TURN_TIME,
-    COLORS,
-    BOARD_MARGIN,
-    BOARD_SIZE,
-    DICE_SIZE,
-} from "../constants.js";
+import Constants from "../Constants.js";
 import Pawn from "./Pawn.js";
 
 export default class GameRefresher {
@@ -19,7 +11,7 @@ export default class GameRefresher {
         const data = await this.getDataFromServer();
         console.log("Data from server: ", data);
         // if data null or game ended make proper actions
-        if (! this.checkIfDataGood(data)) {
+        if (!this.checkIfDataGood(data)) {
             // redirect to login
             window.location.href = window.location.href.slice(0, -8);
             return false;
@@ -81,7 +73,7 @@ export default class GameRefresher {
         p.innerText = playerData.nick;
         // add color
         pin.classList.remove("gray");
-        pin.classList.add(COLORS[playerData.color_index]);
+        pin.classList.add(Constants.COLORS[playerData.color_index]);
         // add other styling if pin belong to actual user
         if (playerData.id == mainPlaierId) {
             pin.classList.add("mainPlayerPin");
@@ -91,14 +83,14 @@ export default class GameRefresher {
 
     loadPlaceNoticer = (pin, playerData) => {
         // if player not have place then not do anything
-        if (playerData['place'] == null){
+        if (playerData["place"] == null) {
             return false;
         }
         const noticer = this.makeNoticer("placeNoticer");
         pin.appendChild(noticer);
         // add information about taken place
-        noticer.innerText = playerData['place']
-    }
+        noticer.innerText = playerData["place"];
+    };
 
     // loading ready slider
 
@@ -112,7 +104,9 @@ export default class GameRefresher {
         isReadySwitch.checked = !playerWaiting;
         isReadySwitch.disabled = !playerWaiting;
         // for player text
-        readyText.innerText = playerWaiting ? WAITING_TEXT : READY_TEXT;
+        readyText.innerText = playerWaiting
+            ? Constants.WAITING_TEXT
+            : Constants.READY_TEXT;
     };
 
     getMainPlayerData = (data) => {
@@ -123,7 +117,9 @@ export default class GameRefresher {
 
     loadTimeNoticer = (data) => {
         // prepare data
-        const playerWithTurnIdx = data.players.findIndex((p) => p.status > 2 && p.status != 5);
+        const playerWithTurnIdx = data.players.findIndex(
+            (p) => p.status > 2 && p.status != 5
+        );
         // if nobody have turn not render noticer
         if (playerWithTurnIdx == -1) {
             return false;
@@ -137,7 +133,7 @@ export default class GameRefresher {
         const milisecondsLeft =
             Date.now() - Date.parse(data.game.turn_start_time);
         const secondsLeft = Math.round(milisecondsLeft / 1000);
-        noticer.innerText = Math.max(TURN_TIME - secondsLeft, 0);
+        noticer.innerText = Math.max(Constants.TURN_TIME - secondsLeft, 0);
     };
 
     makeNoticer = (type) => {
@@ -160,10 +156,21 @@ export default class GameRefresher {
 
     loadBoardImage = async (ctx) => {
         return new Promise((resolv, reject) => {
-            ctx.clearRect(BOARD_MARGIN, 0, BOARD_SIZE, BOARD_SIZE);
+            ctx.clearRect(
+                Constants.BOARD_MARGIN,
+                0,
+                Constants.BOARD_SIZE,
+                Constants.BOARD_SIZE
+            );
             const img = new Image();
             img.onload = () => {
-                ctx.drawImage(img, BOARD_MARGIN, 0, BOARD_SIZE, BOARD_SIZE);
+                ctx.drawImage(
+                    img,
+                    Constants.BOARD_MARGIN,
+                    0,
+                    Constants.BOARD_SIZE,
+                    Constants.BOARD_SIZE
+                );
                 resolv(true);
             };
             img.src = "./src/gfx/board.svg";
@@ -207,8 +214,8 @@ export default class GameRefresher {
     loadDiceImage = async (ctx, points, show) => {
         return new Promise((resolv, reject) => {
             // clear old dice
-            const xy = (BOARD_MARGIN - DICE_SIZE) / 2;
-            ctx.clearRect(xy, xy, DICE_SIZE, DICE_SIZE);
+            const xy = (Constants.BOARD_MARGIN - Constants.DICE_SIZE) / 2;
+            ctx.clearRect(xy, xy, Constants.DICE_SIZE, Constants.DICE_SIZE);
             // end work if should not show
             if (!show) {
                 resolv(true);
@@ -217,7 +224,13 @@ export default class GameRefresher {
             // draw dice image
             const img = new Image();
             img.onload = () => {
-                ctx.drawImage(img, xy, xy, DICE_SIZE, DICE_SIZE);
+                ctx.drawImage(
+                    img,
+                    xy,
+                    xy,
+                    Constants.DICE_SIZE,
+                    Constants.DICE_SIZE
+                );
                 resolv(true);
             };
             img.src = `./src/gfx/cubes/${points}.jpg`;
@@ -253,6 +266,6 @@ export default class GameRefresher {
     };
 
     checkIfDataGood = (data) => {
-        return data != null && data.game.length != 0 && data.game.status != 2
-    }
+        return data != null && data.game.length != 0 && data.game.status != 2;
+    };
 }

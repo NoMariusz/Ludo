@@ -1,42 +1,41 @@
-import { DEFAULT_SPEAK_LANGUAGE } from "../constants.js";
+import Constants from "../Constants.js";
 
+export default class CubeSpeaker {
+    language = Constants.DEFAULT_SPEAK_LANGUAGE;
 
-export default class CubeSpeaker{
-    language = DEFAULT_SPEAK_LANGUAGE
-
-    constructor(points){
-        this.points = points
-        this.voices = []
-        this.speak()
+    constructor(points) {
+        this.points = points;
+        this.voices = [];
+        this.speak();
     }
 
-    async speak(){
+    async speak() {
         await this.locadVoicesList();
-        var u= new SpeechSynthesisUtterance;
-        u.text=this.points;
-        u.voice=this.getVoice();
-        u.rate=1;
-        u.pitch=1;
-        speechSynthesis.speak(u)
+        var u = new SpeechSynthesisUtterance();
+        u.text = this.points;
+        u.voice = this.getVoice();
+        u.rate = 1;
+        u.pitch = 1;
+        speechSynthesis.speak(u);
     }
 
-    async locadVoicesList(){
+    async locadVoicesList() {
         return new Promise((resolve, reject) => {
             // to work with other browsers
-            speechSynthesis.onvoiceschanged=() => {
-                this.voices=speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => {
+                this.voices = speechSynthesis.getVoices();
                 resolve(true);
             };
             // to get voices normally
-            this.voices=speechSynthesis.getVoices();
-            if (this.voices.length > 0){
+            this.voices = speechSynthesis.getVoices();
+            if (this.voices.length > 0) {
                 resolve(true);
             }
-        })
+        });
     }
 
-    getVoice(){
-        const result = this.voices.find((v) => v.lang == this.language)
+    getVoice() {
+        const result = this.voices.find((v) => v.lang == this.language);
         // if can not find voice to language return default voice
         return result ?? this.voices[0];
     }
