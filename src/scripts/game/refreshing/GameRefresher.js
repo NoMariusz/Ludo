@@ -1,4 +1,4 @@
-import Constants from "../Constants.js";
+import Constants from "../../Constants.js";
 import Pawn from "./Pawn.js";
 
 export default class GameRefresher {

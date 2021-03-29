@@ -1,4 +1,4 @@
-import GameRefresher from "./GameRefresher.js";
+import GameRefresher from "../refreshing/GameRefresher.js";
 import CubeSpeaker from "./CubeSpeaker.js";
 
 export default class ThrowCubeHandler{

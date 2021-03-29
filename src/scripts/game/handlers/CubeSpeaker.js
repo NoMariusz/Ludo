@@ -1,4 +1,4 @@
-import Constants from "../Constants.js";
+import Constants from "../../Constants.js";
 
 export default class CubeSpeaker {
     language = Constants.DEFAULT_SPEAK_LANGUAGE;
