@@ -18,7 +18,6 @@ function main(){
     $player_id = $_SESSION['player_id'];
     // random number
     $points = rand(1, 6);
-    $points = 5;
     // set result to game
     $game_id = $_SESSION['game_id'];
     DbManager::make_no_result_querry(

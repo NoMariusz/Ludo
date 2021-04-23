@@ -72,8 +72,13 @@ export default class GameRefresher {
         // set text
         p.innerText = playerData.nick;
         // add color
-        pin.classList.remove("gray");
-        pin.classList.add(Constants.COLORS[playerData.color_index]);
+        if (playerData.status == 0){
+            pin.classList.add("gray");
+            pin.classList.remove(Constants.COLORS[playerData.color_index]);
+        } else {
+            pin.classList.remove("gray");
+            pin.classList.add(Constants.COLORS[playerData.color_index]);
+        }
         // add other styling if pin belong to actual user
         if (playerData.id == mainPlaierId) {
             pin.classList.add("mainPlayerPin");
@@ -102,7 +107,7 @@ export default class GameRefresher {
         const playerWaiting = playerData.status == 0;
         // for slider
         isReadySwitch.checked = !playerWaiting;
-        isReadySwitch.disabled = !playerWaiting;
+        isReadySwitch.disabled = playerData.status > 1;
         // for player text
         readyText.innerText = playerWaiting
             ? Constants.WAITING_TEXT

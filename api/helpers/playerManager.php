@@ -33,7 +33,7 @@ class PlayerManager
         // made self instance
         $player_manager = new self(null);
         foreach ($match_players as $player) {
-            if ($player['status'] == 0) {
+            if ($player['color_index'] == -1) {
                 // foreach player change manager player_id and prepare player
                 $player_manager->player_id = $player['id'];
                 $player_manager->prepare_player_for_main_game();
@@ -76,10 +76,10 @@ class PlayerManager
 
     // set player ready
 
-    function set_player_ready_status()
+    function set_player_ready_status($new_status)
     {
         DbManager::make_no_result_querry(
-            "UPDATE players SET status = 1 WHERE id = $this->player_id"
+            "UPDATE players SET status = $new_status WHERE id = $this->player_id"
         );
     }
 

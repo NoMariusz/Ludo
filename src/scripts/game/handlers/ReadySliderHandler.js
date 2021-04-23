@@ -6,9 +6,9 @@ export default class ReadySliderHandler{
     
     static handleReadyChange = async (e) => {
         // send to socket player ready
-        const res = await fetch("api/public/setPlayerReady.php");
+        const res = await fetch("api/public/changePlayerReady.php");
         if(!res.ok){
-            console.error("Can not set player ready!");
+            console.error("Can not change player ready!");
         }
     }
 }
