@@ -1,10 +1,11 @@
-<pre>
 <?php
+
+// set player to ready and make other ready stuff
+session_start();
+
 include("../includes.php");
 
 function main(){
-    // set player to ready and make other ready stuff
-    session_start();
     // check if is made session with player
     if(!is_player_logged()){
         http_response_code(403);
