@@ -1,5 +1,6 @@
 <?php
-$host='localhost';
-$user='root';
-$passwd='';
-$db='ludo';
+
+$host = 'db';
+$user = 'root';
+$passwd = 'password';
+$db = 'db';

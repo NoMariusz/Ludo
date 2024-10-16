@@ -1,0 +1,4 @@
+# must be ended with a new line "LF" (Unix) and not "CRLF" (Windows)
+*/1 * * * * root cd /app/api && /usr/local/bin/php /app/api/worker.php > /var/log/worker.log
+*/1 * * * * root echo 'working!' > /var/log/worker.log
+# An empty line is required at the end of this file for a valid cron file.
